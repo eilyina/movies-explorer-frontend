@@ -1,0 +1,259 @@
+.about-me {
+    padding: 110px 70px;
+    margin: 0 auto;
+    max-width: 1280px;
+}
+
+.about-me__info {
+    display: flex;
+    flex-direction: column;
+    max-width: 600px;
+}
+
+.about-me__container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.about-me__name {
+    color: #000;
+    font-size: 50px;
+    font-family: Inter;
+    line-height: 58px;
+    letter-spacing: -2px;
+    margin: 66px 0 0 0;
+    padding: 0;
+}
+
+.about-me__job-title {
+    color: #000;
+    font-size: 18px;
+    font-family: Inter;
+    font-weight: 500;
+    line-height: 20px;
+    margin: 18px 0 0 0;
+    padding: 0;
+}
+
+
+
+.about-me__description {
+    margin: 26px 0 0 0;
+    padding: 0;
+    color: #000;
+    font-size: 14px;
+    font-family: Inter;
+    line-height: 22px;
+}
+
+.about-me__link-github {
+    margin: 99px 0 0 0;
+    padding: 0;
+    font-size: 14px;
+    font-family: Inter;
+    font-weight: 500;
+    text-decoration: none;
+    color: #000;
+    transition: opacity 0.3s ease;
+}
+
+.about-me__link-github:hover {
+    opacity: 0.2;
+}
+
+.about-me__photo {
+    margin: 66px 0 0 0;
+    padding: 0;
+    width: 270px;
+    height: 327px;
+    background-image: url("../../images/photo-student.png");
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.about-me__portfolio {
+    margin: 100px 0 0 0;
+    padding: 0;
+    color: #A0A0A0;
+    font-size: 18px;
+    font-family: Inter;
+    line-height: 20px;
+}
+
+.about-me__list {
+    margin: 50px 0 0 0;
+    padding: 0;
+    list-style-type: none;
+}
+
+.about-me__link-site {
+    margin: 20px auto 0;
+    padding: 0 0 9px 0;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #E8E8E8;
+    text-decoration: none;
+    transition: opacity 0.3s ease;
+    align-items: center;
+
+}
+
+.about-me__link-site:hover {
+    opacity: 0.2;
+}
+
+.about-me__link-site-text {
+    margin: 0;
+    padding: 0;
+    color: #000;
+    font-size: 30px;
+    font-family: Inter;
+    line-height: 50px;
+    letter-spacing: -1.2px;
+
+
+}
+
+.about-me__link-site-icon {
+    width: 29px;
+    height: 60px;
+    background-image: url("../../images/arrow.svg");
+    background-size: 55%;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+@media screen and (max-width:1100px) {
+    .about-me {
+        padding: 90px 50px;
+
+    }
+
+    .about-me__info {
+        max-width: 47vw;
+    }
+
+    .about-me__photo {
+        margin: 66px 0 0 0;
+        padding: 0;
+        width: 33vw;
+        height: 307px;
+    }
+
+    .about-me__description {
+        margin: 20px 0 0 0;
+        padding: 0;
+        font-size: 12px;
+        line-height: 18px;
+    }
+
+    .about-me__name {
+        font-size: 40px;
+        line-height: 40px;
+        letter-spacing: -1.6px;
+    }
+
+    .about-me__job-title {
+        font-size: 12px;
+        font-weight: 500;
+        line-height: 18px;
+        margin: 16px 0 0 0;
+        padding: 0;
+    }
+
+    .about-me__link-github {
+        margin: 87px 0 0 0;
+    }
+
+    .about-me__portfolio {
+        margin: 91px 0 0 0;
+    }
+
+    .about-me__link-site-text {
+        font-size: 28px;
+    }
+
+
+}
+
+@media screen and (max-width:580px) {
+    .about-me {
+        padding: 70px 14px;
+        margin: 0 auto;
+
+    }
+
+    .about-me__container {
+        flex-direction: column-reverse;
+    }
+
+    .about-me__info {
+        max-width: 100%;
+    }
+
+    .about-me__photo {
+        margin: 60px 0 0 0;
+        padding: 0;
+        width: 100%;
+        height: 352px;
+
+    }
+
+    .about-me__description {
+
+        font-size: 11px;
+        line-height: 16px;
+    }
+
+    .about-me__name {
+        margin-top: 40px;
+        font-size: 30px;
+        letter-spacing: -1.2px;
+    }
+
+    .about-me__job-title {
+        font-size: 11px;
+        font-weight: 500;
+        line-height: 16px;
+        margin: 20px 0 0 0;
+        padding: 0;
+    }
+
+    .about-me__link-github {
+        margin: 40px 0 0 0;
+    }
+
+    .about-me__portfolio {
+        margin: 70px 0 0 0;
+        font-size: 14px;
+        line-height: 20px;
+    }
+
+    .about-me__link-site{
+       padding-bottom: 19px;
+    }
+
+    .about-me__link-site-text {
+        font-size: 18px;
+        line-height: 28px;
+        letter-spacing: -0.72px;
+    }
+
+    .about-me__link-site-icon {
+        width: 18px;
+        height: 28px;
+    
+        background-size: 55%;
+        
+    }
+
+    .about-me__list {
+        margin-top: 40px;
+    }
+
+   
+    
+
+
+}

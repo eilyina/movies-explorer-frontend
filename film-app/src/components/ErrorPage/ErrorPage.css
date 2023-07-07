@@ -1,0 +1,48 @@
+.error__title {
+    color: #000;
+    text-align: center;
+    font-size: 140px;
+    font-family: Inter;
+    margin: 0;
+    padding: 246px 0 0 0;
+}
+
+.error__text {
+    margin: 0;
+    padding: 5px 0 0 0;
+    color: #000;
+    text-align: center;
+    font-size: 16px;
+    font-family: Inter;
+}
+
+.error__link {
+    margin: 184px auto 0;
+    padding: 0;
+    color: #FF6838;
+    text-align: center;
+    font-size: 14px;
+    font-family: Inter;
+    text-decoration: none;
+    display: block;
+
+}
+
+@media screen and (max-width:450px) {
+    .error__title {
+        color: #000;
+        font-size: 80px;
+        padding: 329px 0 0 0;
+    }
+
+    .error__text {
+        padding: 10px 0 0 0;
+        font-size: 12px;
+
+    }
+
+    .error__link {
+        margin: 284px auto 0;
+        font-size: 12px;
+    }
+}

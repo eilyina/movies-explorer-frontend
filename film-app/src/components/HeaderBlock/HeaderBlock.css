@@ -1,0 +1,18 @@
+.header-block__title {
+    padding: 0 0 23px 0;
+    margin: 0 auto;
+    color: #000;
+    font-size: 22px;
+    font-family: Inter;
+    letter-spacing: -0.88px;
+    text-align: left;
+    border-bottom: 1px solid #000000;
+}
+
+@media screen and (max-width:500px) {
+    .header-block__title {
+        font-size: 18px;
+        letter-spacing: -0.72px;
+        padding-bottom: 28px;
+    }
+}

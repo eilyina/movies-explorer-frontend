@@ -1,0 +1,144 @@
+.header {
+    max-width: 1280px;
+    padding: 18px 70px;
+    margin: 0 auto;
+    font-family: 'Inter', Arial, sans-serif;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+@media screen and (max-width:850px) {
+    .header {
+
+        padding: 18px 30px;
+    }
+}
+
+@media screen and (max-width:580px) {
+    .header {
+
+        padding: 18px 14px;
+    }
+}
+
+.header__logo {
+    height: 38px;
+    width: 38px;
+    background-image: url("../../images/logo.svg");
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    margin: 0;
+    padding: 0;
+}
+
+.header__link {
+    margin: 0 30px 0 0;
+    padding: 8px 0;
+    font-family: 'Inter';
+    font-size: 12px;
+    line-height: 16px;
+    text-decoration: none;
+    color: #000;
+    text-align: right;
+    text-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    font-size: 12px;
+    font-family: Inter;
+    font-weight: 500;
+    line-height: 16px;
+}
+
+@media screen and (max-width:580px) {
+    .header__link {
+        margin-right: 2px;
+        font-size: 10px;
+        padding: 6px 12px;
+    }
+}
+
+
+.header__link:last-of-type {
+    padding: 8px 20px;
+    border-radius: 3px;
+    background: #2BE080;
+    margin: 0;
+}
+
+.header__link-account {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100px;
+    height: 32px;
+    border-radius: 40px;
+    background: #FFF;
+    box-shadow: 0px 3px 14px 0px rgba(0, 0, 0, 0.08);
+
+    text-decoration: none;
+    margin: 0;
+    padding: 0 3px 0 0;
+}
+
+.header__link-account-text {
+    color: #000;
+    font-size: 13px;
+    font-family: Inter;
+    font-weight: 500;
+    line-height: 12px;
+    text-align: center;
+    margin: 0;
+    padding: 0 0 0 11px;
+}
+
+.header__link-account-icon {
+    background-image: url("../../images/avatar.svg");
+    object-fit: cover;
+    object-position: center;
+    width: 10.7px;
+    height: 10.7px;
+    padding: 0;
+    margin: auto;
+    position: absolute;
+    top: 0; left: 0; bottom: 0; right: 0;
+    overflow: auto
+   
+ 
+
+}
+
+.header__icon-container {
+    position: relative;
+   
+    width: 26px;
+    height: 26px;
+    border-radius: 50px;
+    background-color: #F9F9F9;
+    margin: 0;
+    padding: 0
+}
+
+.header__link-films{
+    color: #000;
+text-align: right;
+font-size: 13px;
+font-family: Inter;
+font-weight: 500;
+line-height: 18px;
+margin: 0;
+padding: 0 0 0 16px;
+text-decoration: none;
+}
+
+.header__link-films_active{
+  
+font-weight: 500;
+
+}
+.header__link-films:first-of-type{
+    padding-left: 44px;
+}
+.header__container{
+    display: flex;
+    align-items: center;
+}
