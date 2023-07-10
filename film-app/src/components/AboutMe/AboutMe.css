@@ -230,8 +230,8 @@
         line-height: 20px;
     }
 
-    .about-me__link-site{
-       padding-bottom: 19px;
+    .about-me__link-site {
+        padding-bottom: 19px;
     }
 
     .about-me__link-site-text {
@@ -243,17 +243,12 @@
     .about-me__link-site-icon {
         width: 18px;
         height: 28px;
-    
+
         background-size: 55%;
-        
+
     }
 
     .about-me__list {
         margin-top: 40px;
     }
-
-   
-    
-
-
 }

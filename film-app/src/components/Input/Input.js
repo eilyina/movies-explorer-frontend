@@ -1,17 +1,18 @@
 import './Input.css'
 
-function Input({type, name, placeholder}) {
+function Input({ type, name, placeholder, input, value, disabled }) {
 
     return (
 
         <>
-        <div className="input">
-        <label className="input__label"> {name} </label>
-                <input type={type} className="input__input" name={name} placeholder={placeholder} required />
-                <span className="input__error">wwww</span>
-        </div>
-         
-           
+            <div className={input}>
+                <div className={`${input}__container`}>
+                <label className={`${input}__label`}> {name} </label>
+                <input type={type} className={`${input}__input`} name={name} placeholder={placeholder} value={value} disabled={disabled} required />
+                </div>
+            
+                <span className={`${input}__error`}></span>
+            </div>
 
         </>
     );

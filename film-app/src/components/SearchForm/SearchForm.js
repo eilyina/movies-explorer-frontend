@@ -1,7 +1,7 @@
 import FilterCheckbox from '../FilterCheckbox/FilterCheckbox';
 import './SearchForm.css'
 
-function SearchForm(props) {
+function SearchForm() {
 
     return (
         <>
@@ -14,10 +14,7 @@ function SearchForm(props) {
                 </div>
 
             </form>
-            {/* <div className="toggle-button">
-                <input type="checkbox" name="toggle" id="toggle-button" className="toggle-button__input"></input>
-                <label for="toggle-button" className="toggle-button__text">Короткометражки</label>
-            </div> */}
+
             <FilterCheckbox></FilterCheckbox>
         </>
     );

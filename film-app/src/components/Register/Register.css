@@ -29,11 +29,16 @@
     font-weight: 500;
     text-align: center;
     padding: 0;
-    margin: 69px 0 16px 0;
+    margin: 76px 0 16px 0;
     border: 0;
     border-radius: 3px;
     background: #FF6838;
     cursor: pointer;
+    transition: opacity 0.3s ease;
+}
+
+.register__submit:hover {
+    opacity: 0.2;
 }
 
 .register__link-text {
@@ -51,15 +56,30 @@
     padding: 0 0 0 6px;
     color: #FF6838;
     text-decoration: none;
+    transition: opacity 0.3s ease;
+}
+
+.register__link:hover {
+    opacity: 0.2;
 }
 
 
 
 
 .register__form {
-    margin: 0;
+    margin: 0 auto;
     padding: 0;
     width: 396px;
+}
+
+.header__logo-link {
+    margin: 0;
+    padding: 0;
+    transition: opacity 0.3s ease;
+}
+
+.header__logo-link:hover {
+    opacity: 0.2;
 }
 
 @media screen and (max-width:500px) {
@@ -79,12 +99,13 @@
 
     .register__form {
         width: 260px;
+
     }
 
     .register__submit {
         width: 260px;
         font-size: 12px;
-        margin: 158px 0 14px 0;
+        margin: 167px 0 14px 0;
     }
 
     .register__link-text {
@@ -93,5 +114,11 @@
 
     .register__logo {
         margin: 0 auto;
+    }
+
+    .header__logo-link {
+        display: flex;
+        margin: 0 auto;
+        justify-content: center;
     }
 }

@@ -1,7 +1,5 @@
 import './AboutMe.css'
 import HeaderBlock from '../HeaderBlock/HeaderBlock';
-// import AboutProject from '../AboutProject/AboutProject'
-
 
 function AboutMe() {
     return (
@@ -19,9 +17,6 @@ function AboutMe() {
                 </div>
                 <div className="about-me__photo"></div>
             </div>
-
-
-
             <p className="about-me__portfolio">Портфолио</p>
             <ul className="about-me__list">
                 <li className="about-me__item">

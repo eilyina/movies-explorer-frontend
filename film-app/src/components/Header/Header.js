@@ -1,33 +1,34 @@
+import Account from '../Account/Account';
+import Navigation from '../Navigation/Navigation';
+import Logo from '../Logo/Logo';
 import './Header.css'
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 
 function Header(props) {
-  console.log(props.isLogged)
+  const setActive = ({ isActive }) => (isActive ? "header__link-films header__link-films_active" : "header__link-films");
   return (
     <header className="header">
       {props.isLogged ?
         <>
           <div className="header__container">
-            <div className="header__logo"></div>
-            <Link to="/movies" className="header__link-films header__link-films_active" >Фильмы</Link>
-            <Link to="/saved-movies" className="header__link-films">Сохраненные фильмы</Link>
+            <Link to="/" className="header__logo-link"><Logo></Logo></Link>
+            <NavLink to="/movies" className={setActive} >Фильмы</NavLink>
+            <NavLink to="/saved-movies" className={setActive} >Сохраненные фильмы</NavLink>
           </div>
-          <Link to="/profile" className="header__link-account">
-            <p className="header__link-account-text">Аккаунт</p>
-            <div className="header__icon-container">
-              <div className="header__link-account-icon"></div>
-            </div>
-
-          </Link>
-
+          <Account type={"header"}></Account>
+          <div className="burger__container">
+            <input type="checkbox" className="burger__input" id="burger"></input>
+            <label className="burger__label" for="burger"></label>
+            <Navigation></Navigation>
+          </div>
         </>
         :
         <>
-          <div className="header__logo"></div>
-          <div>
+          <Link to="/" className="header__logo-link"><Logo></Logo></Link>
+          <nav>
             <Link to="/sign-up" className="header__link" >Регистрация</Link>
             <Link to="/sign-in" className="header__link" >Войти</Link>
-          </div>
+          </nav>
         </>
       }
 

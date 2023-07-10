@@ -1,4 +1,4 @@
-.toggle-button{
+.toggle-button {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -52,4 +52,14 @@
     line-height: 18px;
     padding: 0 0 0 12px;
     margin: 0;
+}
+
+@media screen and (max-width:500px) {
+    .toggle-button__text {
+        font-size: 11px;
+    }
+
+    .toggle-button {
+        padding-top: 43px;
+    }
 }
