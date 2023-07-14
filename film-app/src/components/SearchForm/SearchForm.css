@@ -1,23 +1,30 @@
 .search-form {
-    max-width: 1140px;
     margin: 0 auto;
-    padding: 70px 0 15px 5px;
-    border-bottom: 1px solid #E8E8E8;
+    padding: 0;
+    max-width: 1140px;
+}
+
+.search-form__form {
+
+    margin: 0 auto;
+    padding: 70px 0 0 5px;
+    box-sizing: border-box;
+
 
 }
 
 .search-form__input {
+    display: flex;
     border: 0;
     color: #A0A0A0;
     text-align: center;
-    font-family: Inter;
+    font-family: 'Inter', Arial, sans-serif;
     font-size: 28px;
     font-style: normal;
     font-weight: 500;
     line-height: normal;
     margin: 0;
     padding: 0;
-    width: 100%;
     outline: none;
 }
 
@@ -27,9 +34,15 @@
 
 
 .search-form__input-wide {
-    overflow: hidden;
+    /* overflow: hidden; */
+
     margin: 0;
     padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #E8E8E8;
 }
 
 .search-form__submit {
@@ -44,8 +57,8 @@
     border-radius: 50px;
     border: 1px solid #E8E8E8;
     cursor: pointer;
-    display: block;
-    float: left;
+    display: flex;
+    /* float: left; */
     transition: opacity 0.3s ease;
 }
 
@@ -64,8 +77,9 @@
     background-color: transparent;
     border: 0;
     cursor: pointer;
-    display: block;
-    float: right;
+    display: flex;
+    /* display: block;
+    float: right; */
     transition: opacity 0.3s ease;
 }
 
@@ -74,13 +88,17 @@
 }
 
 @media screen and (max-width:800px) {
-    .search-form {
+    .search-form__input {
+        max-width: 80vw;
+    }
 
-        padding: 82px 0 17px 5px;
+    .search-form__form {
+
+        padding: 82px 0 3px 5px;
     }
 }
 
-@media screen and (max-width:500px) {
+@media screen and (max-width:580px) {
     .search-form__submit {
 
         display: none;
@@ -89,22 +107,32 @@
     .search-form__input {
         text-align: left;
         font-size: 18px;
+
     }
 
     .search-form__input-wide {
         display: flex;
-        justify-content: center;
+        justify-content: space-between;
         align-items: center;
-        margin-bottom: 17px;
+        margin-bottom: 0px;
+        padding-bottom: 10px;
     }
 
-    .search-form {
-        padding-top: 95px;
+    .search-form__form {
+        padding-top: 90px;
         padding-bottom: 0;
+        padding-right: 5px;
     }
 
     .search-form__submit-orange {
-        margin-right: 3px;
+        padding-right: 3px;
 
     }
 }
+
+@media screen and (max-width:400px) {
+    .search-form__input {
+        max-width: 60vw;
+    }
+
+} 

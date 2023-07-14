@@ -1,22 +1,30 @@
 .profile {
     margin: 0 auto;
     padding: 74px 0 70px;
+    max-width: 1280px;
+    box-sizing: border-box;
+}
+
+.profile__section {
+    margin: 0 auto;
+    padding: 0;
     display: flex;
     flex-direction: column;
 }
 
 .profile__form {
     margin: 0 auto;
-    padding: 123px 0 190px;
+    padding: 123px 0 0 0;
     width: 410px;
     display: flex;
     flex-direction: column;
+    box-sizing: border-box;
 }
 
 .profile__title {
     color: #000;
     text-align: center;
-    font-family: Inter;
+    font-family: 'Inter', Arial, sans-serif;
     font-size: 24px;
     font-style: normal;
     font-weight: 500;
@@ -27,14 +35,43 @@
 
 .profile__edit-button {
     margin: 0 auto;
-    padding: 0;
+    padding: 190px 0 0 0;
     border: 0;
     cursor: pointer;
     background-color: transparent;
     transition: opacity 0.3s ease;
 }
 
-.profile__edit-button:hover {
+
+.profile__save-button {
+    width: 100%;
+    height: 45px;
+    color: #FFF;
+    font-size: 14px;
+    font-family: 'Inter', Arial, sans-serif;
+    font-weight: 500;
+    text-align: center;
+    padding: 0;
+    margin: 198px 0 0 0;
+    border: 0;
+    cursor: pointer;
+    background-color: #FF6838;
+    border-radius: 3px;
+}
+
+.profile__save-button_disabled {
+    background: #F8F8F8;
+    color: #C2C2C2;
+    text-align: center;
+    font-family: 'Inter', Arial, sans-serif;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+
+.profile__edit-button:hover,
+.profile__save-button:hover {
     opacity: 0.2;
 }
 
@@ -47,7 +84,7 @@
     cursor: pointer;
     color: #EE3465;
     text-align: center;
-    font-family: Inter;
+    font-family: 'Inter', Arial, sans-serif;
     font-size: 13px;
     font-style: normal;
     font-weight: 500;
@@ -71,9 +108,15 @@
     .profile__form {
 
         padding-top: 96px;
-        padding-bottom: 180px;
 
+    }
 
+    .profile__edit-button {
+        padding-top: 180px;
+    }
+
+    .profile__save-button {
+        margin-top: 180px;
     }
 
 }
@@ -82,19 +125,26 @@
     .profile {
 
         padding-top: 70px;
-
-
-
     }
 
     .profile__form {
         padding-top: 80px;
-        padding-bottom: 350px;
+
         width: 260px;
     }
 
     .profile__logout-link {
         font-size: 12px;
+        padding-top: 14px;
     }
 
+    .profile__edit-button {
+        padding-top: 350px;
+    }
+
+    .profile__save-button {
+        width: 260px;
+        font-size: 12px;
+        margin-top: 350px;
+    }
 }

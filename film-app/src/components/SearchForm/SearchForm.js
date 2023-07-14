@@ -5,17 +5,22 @@ function SearchForm() {
 
     return (
         <>
-            <form className='search-form'>
-                <button type="submit" className="search-form__submit"></button>
-                <button type="submit" className="search-form__submit-orange"></button>
-                <div className='search-form__input-wide'>
-                    <input className='search-form__input' placeholder='Фильм'>
-                    </input>
-                </div>
+            <section className='search-form'>
+                <form className='search-form__form'>
+                    <div className='search-form__input-wide'>
+                        <button type="submit" className="search-form__submit"></button>
 
-            </form>
 
-            <FilterCheckbox></FilterCheckbox>
+                        <input className='search-form__input' placeholder='Фильм' required>
+                        </input>
+
+                        <button type="submit" className="search-form__submit-orange"></button>
+
+                    </div>
+                    <FilterCheckbox></FilterCheckbox>
+                </form>
+            </section>
+
         </>
     );
 }

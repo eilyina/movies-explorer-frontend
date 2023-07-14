@@ -18,7 +18,7 @@
 .input__input {
     color: #000;
     font-size: 13px;
-    font-family: Inter;
+    font-family: 'Inter', Arial, sans-serif;
     border-radius: 8px;
     background: #F9F9F9;
     border: 0;
@@ -27,14 +27,14 @@
     outline: none;
 }
 
-.input__input:focus {
+.input__input:focus, .input-profile__input:focus {
     border: 3px solid #2BE080;
 }
 
 .input__label {
     color: #A0A0A0;
     font-size: 10px;
-    font-family: Inter;
+    font-family: 'Inter', Arial, sans-serif;
     margin: 0;
     padding: 0;
 
@@ -46,7 +46,7 @@
     min-height: 10px;
     color: #EE3465;
     font-size: 10px;
-    font-family: Inter;
+    font-family: 'Inter', Arial, sans-serif;
 }
 
 .input-profile {
@@ -78,7 +78,7 @@
     display: flex;
 
     color: #000;
-    font-family: Inter;
+    font-family: 'Inter', Arial, sans-serif;
     font-size: 11px;
     font-style: normal;
     font-weight: 500;
@@ -92,7 +92,7 @@
     display: flex;
     color: #000;
     text-align: right;
-    font-family: Inter;
+    font-family: 'Inter', Arial, sans-serif;
     font-size: 11px;
     font-style: normal;
     font-weight: 400;
@@ -100,6 +100,7 @@
     border: 0;
     margin: 0;
     padding: 0;
+    outline: none;
 
 }
 
@@ -110,7 +111,7 @@
     min-height: 16px;
     color: #EE3465;
     font-size: 10px;
-    font-family: Inter;
+    font-family: 'Inter', Arial, sans-serif;
 }
 
 @media screen and (max-width:500px) {

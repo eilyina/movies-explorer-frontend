@@ -5,10 +5,10 @@ import HeaderBlock from '../HeaderBlock/HeaderBlock';
 
 function Techs() {
     return (
-        <section className="technologies">
+        <section className="technologies" id="tech">
             <HeaderBlock title={'Технологии'}></HeaderBlock>
             <h3 className="technologies__title">7 технологий</h3> 
-            <h4 className="technologies__subtitle">На курсе веб-разработки мы освоили технологии, которые применили в дипломном проекте.</h4> 
+            <p className="technologies__subtitle">На курсе веб-разработки мы освоили технологии, которые применили в дипломном проекте.</p> 
             <ul className="technologies__list">
                     <li className="technologies__item">HTML</li>
                     <li className="technologies__item">CSS</li>

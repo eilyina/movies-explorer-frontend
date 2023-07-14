@@ -1,9 +1,18 @@
-.card-list {
+.card-list{
+    margin: 0 auto;
+    padding: 0;
+}
+
+.card-list__list {
     margin: 0;
-    padding: 70px 0 0 0;
+    padding: 68px 0 0;
     display: flex;
     flex-direction: column;
     gap: 40px;
+    justify-content: center;
+    align-items: center;
+    list-style-type: none;
+
 }
 
 .more-button {
@@ -14,7 +23,7 @@
     padding: 11px 60px 9px;
     color: #000;
     text-align: center;
-    font-family: Inter;
+    font-family: 'Inter', Arial, sans-serif;
     font-size: 12px;
     font-style: normal;
     font-weight: 500;
@@ -24,6 +33,10 @@
     border-radius: 5px;
     cursor: pointer;
     transition: opacity 0.3s ease;
+}
+
+.more-button__type_saved-movies{
+    margin-bottom: 52px;
 }
 
 .more-button:hover {
@@ -38,10 +51,14 @@
 
 
     }
+
+    .more-button__type_saved-movies{
+        margin-bottom: 70px;
+    }
 }
 
 @media screen and (max-width:500px) {
-    .card-list {
+    .card-list__list {
 
         gap: 20px;
         padding-top: 40px;
@@ -55,5 +72,9 @@
         margin-bottom: 100px;
 
 
+    }
+
+    .more-button__type_saved-movies{
+        margin-bottom: 73px;
     }
 }

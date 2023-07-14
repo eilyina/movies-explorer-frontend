@@ -3,24 +3,27 @@ import link from '../../images/wordsaboutdesign.png'
 import { useLocation } from 'react-router-dom';
 
 
-function MoviesCard() {
+function MoviesCard({ card }) {
 
     const location = useLocation();
- 
+
     return (
         <>
             <li className="card">
                 <div className="card__info">
-                    <p className="card__title">33 слова о дизайне</p>
+                    <h2 className="card__title">33 слова о дизайне</h2>
                     <p className="card__duration">1ч 42м</p>
                     {
-                      
-                    location.pathname === '/saved-movies' ? 
-                    <button className="card__like card__delete-icon" type="button"></button>
-                    :
-                    <button className="card__like card__like_active" type="button"></button>}
+
+                        location.pathname === '/saved-movies' ?
+                            <button className="card__like card__delete-icon" type="button"></button>
+                            :
+                            <button className="card__like card__like_active" type="button"></button>}
                 </div>
-                <img className="card__image" src={link} alt="wordsaboutdesign"></img>
+                <a className="card__link" href="https://www.kinopoisk.ru/film/1302273/" rel="noreferrer" target="_blank">
+                    <img className="card__image" src={link} alt={card?.name}></img>
+                </a>
+
 
             </li>
 

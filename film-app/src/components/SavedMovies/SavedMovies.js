@@ -13,7 +13,7 @@ function SavedMovies() {
             <Header isLogged={true}> </Header>
             <main className='movie-content'>
                 <SearchForm></SearchForm>
-                <MoviesCardList></MoviesCardList>
+                <MoviesCardList isSavedMovies={true}></MoviesCardList>
             </main>
             <Footer></Footer>
 

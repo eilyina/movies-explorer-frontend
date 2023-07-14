@@ -1,22 +1,8 @@
 .project {
-    padding: 110px 70px;
+    padding: 110px 70px 102px;
     margin: 0 auto;
     max-width: 1280px;
-}
-
-@media screen and (max-width:850px) {
-    .project {
-
-        padding: 90px 50px;
-        max-width: 668px;
-    }
-}
-
-@media screen and (max-width:600px) {
-    .project {
-
-        padding: 70px 18px;
-    }
+    box-sizing: border-box;
 }
 
 .project__info {
@@ -29,47 +15,22 @@
     grid-auto-flow: column;
 }
 
-@media screen and (max-width:850px) {
-    .project__info {
-
-        gap: 18px 30px;
-    }
-}
-
-@media screen and (max-width:580px) {
-    .project__info {
-
-        margin-top: 60px;
-        grid-auto-flow: row;
-        grid-template-columns: 1fr;
-        grid-template-rows: auto;
-        gap: 16px;
-
-
-
-
-    }
-}
-
 .project__title {
     padding: 0;
     margin: 0;
     font-size: 20px;
-    font-family: Inter;
+    font-family: 'Inter', Arial, sans-serif;
     letter-spacing: -0.8px;
     max-width: 550px;
 }
 
-@media screen and (max-width:850px) {
-    .project__title {
-        max-width: 319px;
-    }
-}
+
+
 
 @media screen and (max-width:580px) {
     .project__title {
         font-size: 18px;
-        font-family: Inter;
+        font-family: 'Inter', Arial, sans-serif;
         letter-spacing: -0.72px;
         padding-top: 40px;
         /* grid-area: header; */
@@ -87,29 +48,9 @@
     padding: 0;
     margin: 0;
     font-size: 14px;
-    font-family: Inter;
+    font-family: 'Inter', Arial, sans-serif;
     line-height: 20px;
     max-width: 550px;
-}
-
-@media screen and (max-width:850px) {
-    .project__text {
-        max-width: 319px;
-        font-size: 12px;
-        font-family: Inter;
-        line-height: 18px;
-
-    }
-}
-
-@media screen and (max-width:580px) {
-    .project__text {
-        font-size: 11px;
-        font-family: Inter;
-        line-height: 16px;
-        /* grid-area: content; */
-
-    }
 }
 
 .project__progress-bar {
@@ -118,22 +59,6 @@
     grid-template-rows: 36px 36px;
     margin: 110px auto 0 auto;
     padding: 0;
-}
-
-@media screen and (max-width:800px) {
-    .project__progress-bar {
-        margin-top: 92px;
-        grid-template-columns: 1fr 3.77fr;
-
-    }
-}
-
-@media screen and (max-width:580px) {
-    .project__progress-bar {
-        margin-top: 60px;
-        grid-template-columns: 1fr 1.84fr;
-
-    }
 }
 
 .project__progress-text-weeks {
@@ -148,7 +73,7 @@
 
     text-align: center;
     font-size: 14px;
-    font-family: Inter;
+    font-family: 'Inter', Arial, sans-serif;
 
 }
 
@@ -156,12 +81,6 @@
     background-color: #2BE080;
 }
 
-@media screen and (max-width:580px) {
-    .project__progress-text-weeks {
-
-        font-size: 11px;
-    }
-}
 
 .project__progress-text-type {
     display: flex;
@@ -172,16 +91,91 @@
     color: #A0A0A0;
     text-align: center;
     font-size: 14px;
-    font-family: Inter;
+    font-family: 'Inter', Arial, sans-serif;
     font-weight: 500;
     line-height: 17px;
 }
 
 
 
-@media screen and (max-width:580px) {
+
+@media screen and (max-width:850px) {
+    .project {
+
+        padding: 90px 0;
+        max-width: 668px;
+    }
+
+    .project__info {
+
+        gap: 18px 30px;
+    }
+
+    .project__title {
+        max-width: 319px;
+    }
+
+    .project__text {
+        max-width: 319px;
+        font-size: 12px;
+        font-family: 'Inter', Arial, sans-serif;
+        line-height: 18px;
+
+    }
+}
+
+@media screen and (max-width:800px) {
+    .project__progress-bar {
+        margin-top: 92px;
+        grid-template-columns: 1fr 3.77fr;
+
+    }
+}
+
+@media screen and (max-width:710px) {
+    .project {
+
+        padding: 70px 18px;
+    }
+}
+
+
+@media screen and (max-width:710px) {
+    .project__text {
+        font-size: 11px;
+        font-family: 'Inter', Arial, sans-serif;
+        line-height: 16px;
+        /* grid-area: content; */
+
+    }
+
     .project__progress-text-type {
         padding: 0;
         font-size: 11px;
+    }
+
+    .project__progress-text-weeks {
+
+        font-size: 11px;
+    }
+
+    .project__progress-bar {
+        margin-top: 60px;
+        grid-template-columns: 1fr 1.84fr;
+
+    }
+}
+
+@media screen and (max-width:710px) {
+    .project__info {
+
+        margin-top: 60px;
+        display: flex;
+        gap: 16px;
+        justify-self: center;
+        align-items: center;
+        flex-direction: column;
+
+
     }
 }

@@ -7,7 +7,7 @@ function FilterCheckbox(props) {
 
             <div className="toggle-button">
                 <input type="checkbox" name="toggle" id="toggle-button" className="toggle-button__input"></input>
-                <label for="toggle-button" className="toggle-button__text">Короткометражки</label>
+                <label htmlFor="toggle-button" className="toggle-button__text">Короткометражки</label>
             </div>
         </>
     );

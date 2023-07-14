@@ -1,10 +1,25 @@
+.error {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.error__section {
+    margin: 0;
+    padding: 0;
+}
+
 .error__title {
     color: #000;
     text-align: center;
     font-size: 140px;
-    font-family: Inter;
+    font-family: 'Inter', Arial, sans-serif;
     margin: 0;
     padding: 246px 0 0 0;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
 }
 
 .error__text {
@@ -13,7 +28,7 @@
     color: #000;
     text-align: center;
     font-size: 16px;
-    font-family: Inter;
+    font-family: 'Inter', Arial, sans-serif;
 }
 
 .error__link {
@@ -22,7 +37,7 @@
     color: #FF6838;
     text-align: center;
     font-size: 14px;
-    font-family: Inter;
+    font-family: 'Inter', Arial, sans-serif;
     text-decoration: none;
     display: block;
     transition: opacity 0.3s ease;
@@ -30,6 +45,12 @@
 
 .error__link:hover {
     opacity: 0.2;
+}
+
+@media screen and (max-width:850px) {
+    .error__title {
+        padding-top: 408px;
+    }
 }
 
 @media screen and (max-width:450px) {

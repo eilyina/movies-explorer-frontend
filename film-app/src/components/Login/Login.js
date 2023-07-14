@@ -8,15 +8,17 @@ function Login() {
     return (
 
         <>
-            <header className="header">
+            <header className="header-login">
             </header>
             <main className="content">
                 <section className="login">
-                    <Link to="/" className="header__logo-link"><Logo ></Logo></Link>
-                    <h3 className="login__title">Рады видеть!</h3>
+                    <Link to="/" className="login__logo-link"><Logo ></Logo></Link>
+                    <h1 className="login__title">Рады видеть!</h1>
                     <form className="register__form" method="post" >
-                        <Input input={'input'} type={"email"} name={"E-mail"} placeholder={"Ваш email"}></Input>
-                        <Input input={'input'} type={"password"} name={"Пароль"} placeholder={"Ваш пароль"}></Input>
+                        <Input input={'input'} type={"email"} name={"E-mail"} placeholder={"Ваш email"} minLength="2"
+                            maxLength="64"></Input>
+                        <Input input={'input'} type={"password"} name={"Пароль"} placeholder={"Ваш пароль"} minLength="2"
+                            maxLength="64"></Input>
                         <button type="submit" className="login__submit">Войти</button>
                         <p className="login__link-text">Ещё не зарегистрированы?
                             <Link to="/sign-up" className="login__link">Регистрация</Link>
