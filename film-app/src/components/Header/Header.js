@@ -30,8 +30,8 @@ function Header(props) {
           <Link to="/" className="header__logo-link"><Logo></Logo></Link>
           <nav className="header__container">
             <ul className="header__link-list">
-              <li className="header__link-item"><Link to="/sign-up" className="header__link" >Регистрация</Link></li>
-              <li className="header__link-item"><Link to="/sign-in" className="header__link" >Войти</Link></li>
+              <li className="header__link-item"><Link to="/signup" className="header__link" >Регистрация</Link></li>
+              <li className="header__link-item"><Link to="/signin" className="header__link" >Войти</Link></li>
             </ul>
           </nav>
         </>
