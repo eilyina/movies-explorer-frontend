@@ -1,0 +1,25 @@
+@import url(vendor/fonts/inter/inter.css);
+
+body {
+  margin: 0;
+  font-family: 'Inter', Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  box-sizing: border-box;
+
+}
+
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+#root{
+  margin: 0 auto;
+  max-width: 1280px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+/* * { outline: 1px solid red; } */

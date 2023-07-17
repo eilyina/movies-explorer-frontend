@@ -1,0 +1,137 @@
+.input {
+    margin: 0 auto;
+    padding: 0;
+    width: 396px;
+    display: flex;
+    flex-direction: column;
+}
+
+.input__container {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+
+}
+
+
+.input__input {
+    color: #000;
+    font-size: 13px;
+    font-family: 'Inter', Arial, sans-serif;
+    border-radius: 8px;
+    background: #F9F9F9;
+    border: 0;
+    margin: 9px 0;
+    padding: 15px 0 15px 15px;
+    outline: none;
+}
+
+.input__input:focus, .input-profile__input:focus {
+    border: 3px solid #2BE080;
+}
+
+.input__label {
+    color: #A0A0A0;
+    font-size: 10px;
+    font-family: 'Inter', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+
+}
+
+.input__error {
+    margin: 0;
+    padding-top: 0;
+    min-height: 10px;
+    color: #EE3465;
+    font-size: 10px;
+    font-family: 'Inter', Arial, sans-serif;
+}
+
+.input-profile {
+    margin: 0;
+    padding: 0;
+    width: 410px;
+    display: flex;
+    border: 0;
+    flex-direction: column;
+
+}
+
+.input-profile__container {
+    margin: 0;
+    padding: 0 0 16px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    height: 14px;
+    border: 0;
+}
+
+.input-profile:first-of-type .input-profile__container:first-of-type {
+    border-bottom: 1px solid #E8E8E8;
+}
+
+.input-profile__label {
+    display: flex;
+
+    color: #000;
+    font-family: 'Inter', Arial, sans-serif;
+    font-size: 11px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    margin: 0;
+    padding: 0;
+
+}
+
+.input-profile__input {
+    display: flex;
+    color: #000;
+    text-align: right;
+    font-family: 'Inter', Arial, sans-serif;
+    font-size: 11px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    border: 0;
+    margin: 0;
+    padding: 0;
+    outline: none;
+
+}
+
+.input-profile__error {
+    margin: 0;
+    display: flex;
+    padding: 0;
+    min-height: 16px;
+    color: #EE3465;
+    font-size: 10px;
+    font-family: 'Inter', Arial, sans-serif;
+}
+
+@media screen and (max-width:500px) {
+    .input {
+
+        width: 260px;
+    }
+
+    .input__container {
+
+        width: 260px;
+    }
+
+    .input-profile {
+
+        width: 260px;
+    }
+
+    .input-profile__container {
+
+        width: 260px;
+    }
+}

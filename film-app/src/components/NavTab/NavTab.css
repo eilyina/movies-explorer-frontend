@@ -1,0 +1,40 @@
+.nav__link {
+    color: #000;
+    font-size: 12px;
+    font-family: 'Inter', Arial, sans-serif;
+    font-weight: 500;
+    line-height: 16px;
+    text-decoration: none;
+    margin: 0;
+    padding: 10px 0;
+    border-radius: 10px;
+    background: #E8E8E8;
+    min-width: 96px;
+    text-align: center;
+    transition: opacity 0.3s ease;
+}
+
+.nav__link:hover {
+    opacity: 0.2;
+}
+
+.nav__links {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin: 0 auto;
+
+}
+
+@media screen and (max-width:580px) {
+    .nav__links {
+        gap: 6px;
+    }
+
+    .nav__link {
+        font-size: 10px;
+        padding: 5px 0;
+        min-width: 82px;
+    }
+}
