@@ -6,10 +6,10 @@ import AboutMe from '../AboutMe/AboutMe';
 import Footer from '../Footer/Footer';
 import'./Main.css'
 
-function Main() {
+function Main(props) {
   return (
     <>
-      <Header isLogged={false}></Header>
+      <Header isLogged={props.loggedIn}></Header>
       <main className="main">
       <Promo></Promo>
       <AboutProject></AboutProject>

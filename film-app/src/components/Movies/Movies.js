@@ -6,11 +6,12 @@ import SearchForm from '../SearchForm/SearchForm';
 import Footer from '../Footer/Footer';
 
 
-function Movies() {
+function Movies(props) {
+    console.log(`movies ${props.loggedIn}`)
 
     return (
         <>
-            <Header isLogged={true}> </Header>
+            <Header isLogged={props.loggedIn}> </Header>
             <main className='movie-content'>
                 <SearchForm></SearchForm>
                 <MoviesCardList isSavedMovies={false}></MoviesCardList>
