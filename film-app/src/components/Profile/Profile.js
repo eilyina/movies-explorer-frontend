@@ -6,6 +6,7 @@ import React, { useState, useEffect } from "react";
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import { api } from '../../utils/MainApi';
 import { useFormWithValidation } from '../Hooks/useForm';
+import {setLoggedIn} from '../App/App'
 
 function Profile(props) {
 
@@ -18,7 +19,9 @@ function Profile(props) {
 
     function signOut() {
       localStorage.removeItem('jwt');
+      props.isLogged = false;
       navigate('/signin');
+     
     }
   
     
@@ -28,7 +31,7 @@ function Profile(props) {
 
     }, [currentUser]);
 
-    // console.log(formValue)
+    // console.log(currentUser)
 
     const handleUpdateUser = (currentUser) => {
         api.updateUserInfo(currentUser)

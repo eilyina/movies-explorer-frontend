@@ -9,18 +9,27 @@ import SavedMovies from '../SavedMovies/SavedMovies'
 import Profile from '../Profile/Profile';
 import { moviesApi } from '../../utils/MoviesApi';
 import { api } from '../../utils/MainApi';
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import ProtectedRouteElement from '../ProtectedRouteElement/ProtectedRoute';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
+import SearchForm from '../SearchForm/SearchForm';
+import { search } from '../SearchForm/SearchForm'
 
 function App() {
   const [registrationStatus, setRegistrationStatus] = useState('');
   const [currentUser, setCurrentUser] = useState({});
   const [loggedIn, setLoggedIn] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [onlyShortMovie, setOnlyShortMovie] = useState(false);
   const navigate = useNavigate()
   const location = useLocation()
   const [userData, setUserData] = useState({ email: '', name: '' })
-  // const [isInfoTooltipPopupOpen, setIsInfoTooltipPopupOpen] = useState(false);
+  const [movies, setMovies] = useState([]);
+  const [savedMovies, setSavedMovies] = useState([]);
+  const [filteredMovie, setFilteredMovie] = useState([]);
+  // const [searchQuery, setSearchQuery] = useState('');
+
+  // console.log(currentUser)
 
   const handleRegister = ({ email, password, name }) => {
     api.register(email, password, name)
@@ -40,7 +49,8 @@ function App() {
         if (data.token) {
           localStorage.setItem('jwt', data.token)
           setLoggedIn(true)
-          setUserData({ email, name })
+          // setUserData({ email, name })
+          setCurrentUser({ email, name })
           navigate('/movies')
         }
       })
@@ -60,7 +70,8 @@ function App() {
       .then(res => {
         if (res) {
           setLoggedIn(true)
-          setUserData(res)
+          // setUserData(res)
+          setCurrentUser(res)
           navigate(lastPage)
 
         }
@@ -69,36 +80,52 @@ function App() {
         console.log('Произошла ошибка')
       })
   }
-  useEffect(() => {
-    tokenCheck()
-  }, []);
 
-  useEffect(() => {
-    if (loggedIn) {
-     api.getUserInfo()
-        .then(({name, email}) => {
-          setCurrentUser({name, email});
-          console.log(userData)
-        })
-        .catch((err) => console.log(`${err}`))
-    }
-    // if (loggedIn) {
-    //   Promise.all([api.getUserInfo()
-    //     , api.getInitialCards()
-    //   ])
-    //     .then(([userData, cardData]) => {
-    //       setCurrentUser(userData);
-    //       setCards(cardData.reverse());
-    //     })
-    //     .catch((err) => console.log(`${err}`))
+  const handleGetMovies = () => {
+    setIsLoading(true)
 
-  }, [loggedIn])
-
-  // console.log(currentUser)
-  const getMovies = () => {
     moviesApi.getMovies()
       .then((data) => {
-        console.log(data)
+        setTimeout(() => {
+          setIsLoading(false)
+          setMovies(data)
+
+          // console.log(data)
+
+        }, 1000)
+
+      })
+      .then(() => {
+        setFilteredMovie(movies.filter(function (movie) {
+          // console.log(movie.nameRU)
+          // console.log(search)
+          return (movie.nameRU?.toLowerCase()).includes(search?.toLowerCase())
+        }))
+
+        localStorage.setItem('list', JSON.stringify(filteredMovie));
+        localStorage.setItem('search', JSON.stringify(search));
+        // localStorage.setItem('isShortMovie', JSON.stringify(onlyShortMovie));
+      })
+      .catch(() => {
+        console.log('Произошла ошибка')
+      })
+  }
+
+  const handleGetSavedMovies = () => {
+    setIsLoading(true)
+
+    api.getSavedMovies()
+      .then((data) => {
+        setTimeout(() => {
+          setIsLoading(false)
+          // setSavedMovies(data)
+          setSavedMovies(data.filter(item => {
+            // console.log(item.owner)
+            // console.log(currentUser)
+            return item.owner === currentUser._id
+          }))
+
+        }, 1000)
 
       })
       .catch(() => {
@@ -106,44 +133,107 @@ function App() {
       })
   }
 
+  const handleAddMovie = (movie, isLiked) => {
+
+    if (isLiked) {
+      console.log('удалить')
+    } else {
+      api.createMovie(movie)
+        .then((newMovie) => {
+
+          // savedMovies.push(newMovie);
+          setSavedMovies([...savedMovies, newMovie]);
+          console.log(savedMovies)
+        })
+
+        .catch(() => console.log('Произошла ошибка'))
+    }
+
+
+  }
+
+  const handleLikeClick = (movie, isLiked) => {
+    handleAddMovie(movie, isLiked);
+  }
+
+  // console.log(savedMovies)
+
+  // let filterMovieList = movies.filter(function (movie) {
+  //   // return hasStr(movie.nameRU, search)
+  //   // console.log(movie.nameRU)
+  //   // console.log(search)
+  //   return (movie.nameRU?.toLowerCase()).includes(search?.toLowerCase())
+  // })
+
+
+
+  // localStorage.setItem('list', JSON.stringify(filterMovieList));
+  // localStorage.setItem('search', JSON.stringify(searchQuery));
+  // localStorage.setItem('isShortMovie', JSON.stringify(onlyShortMovie));
+
+
+  // useEffect(() => {
+  //   if(onlyShortMovie){
+  //     filterMovieList = movies.filter((movie) => movie.duration < 40);
+  //   }
+
+  // }, [onlyShortMovie,filterMovieList]);
+
+  // const shortMovies = movies.filter((movie) => movie.duration < 40)
+  // console.log(shortMovies)
+
+
+  useEffect(() => {
+    tokenCheck()
+    handleGetSavedMovies()
+
+  }, []);
+
+  useEffect(() => {
+    if (loggedIn) {
+      api.getUserInfo()
+        .then(({ name, email, _id }) => {
+          setCurrentUser({ name, email, _id });
+          // console.log(userData)
+        })
+        .catch((err) => console.log(`${err}`))
+    }
+  }, [loggedIn])
+
+
+
+  // console.log(currentUser)
   //   getMovies();
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
- <>
-      <Routes>
-        <Route path="/signup" element={<Register handleRegister={handleRegister} registrationStatus={registrationStatus} />} />
-        <Route path="/signin" element={<Login handleLogin={handleLogin} registrationStatus={registrationStatus} />} />
-        <Route path="/saved-movies" element={<ProtectedRouteElement element={SavedMovies} loggedIn={loggedIn}/>}/>
-        <Route path="/profile" element={<ProtectedRouteElement element={Profile} loggedIn={loggedIn} currentUser={currentUser}/>}/>
-        <Route path="/error" element={<ErrorPage />} />
-        <Route path="/*" element={<Main loggedIn={loggedIn}/>} />
-        {console.log(loggedIn)}
-        <Route path="/movies" element={<ProtectedRouteElement 
-        element={Movies} loggedIn={loggedIn}
-         />} />
+      <>
+        <Routes>
+          <Route path="/signup" element={<Register handleRegister={handleRegister} registrationStatus={registrationStatus} />} />
+          <Route path="/signin" element={<Login handleLogin={handleLogin} registrationStatus={registrationStatus} />} />
+          <Route path="/saved-movies" element={<ProtectedRouteElement element={SavedMovies} loggedIn={loggedIn} />} />
+          <Route path="/profile" element={<ProtectedRouteElement element={Profile} loggedIn={loggedIn} currentUser={currentUser} />} />
+          <Route path="/error" element={<ErrorPage />} />
+          <Route path="/*" element={<Main loggedIn={loggedIn} />} />
+          <Route path="/movies" element={<ProtectedRouteElement
+            element={Movies} loggedIn={loggedIn}
+            handleGetMovies={handleGetMovies}
+            handleGetSavedMovies={handleGetSavedMovies}
+            isLoading={isLoading}
+            movies={filteredMovie}
+            handleLikeClick={handleLikeClick}
+            savedMovies={savedMovies}
+            currentUser={currentUser}
+          // searchQuery={searchQuery}
 
-
-      </Routes>
-      {/* <Route path="/" element={<ProtectedRouteElement element={Main}
-      onEditProfile={handleEditProfileClick}
-      onAddPlace={handleAddPlaceClick}
-      onEditAvatar={handleEditAvatarClick}
-      onCardClick={handleCardClick}
-      onCardLike={handleCardLike}
-      onCardDelete={handleCardDelete}
-      cards={cards}
-      card={selectedCard}
-      loggedIn={loggedIn}
-
-    />} /> */}
-
-    </>
+          />} />
+          {/* {console.log(movies)} */}
+        </Routes>
+      </>
     </CurrentUserContext.Provider>
-   
+
 
 
   );
 }
-
 export default App;
