@@ -28,29 +28,27 @@ function App() {
   const [savedMovies, setSavedMovies] = useState([]);
   const [filteredMovie, setFilteredMovie] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
+  const [isFirstSearch, setIsFirstSearch] = useState(true);
 
   // console.log(currentUser)
 
-  const handleSearchQueryChange= (e) => {
+  const handleSearchQueryChange = (e) => {
     e.preventDefault();
     setSearchQuery(e.target.value);
+  }
 
-// setSearchQuery(props.searchQuery)
-// search = searchQuery;
+  const handleSubmitSearch = (e) => {
+    e.preventDefault();
+    // handleSearchQueryChange(e)
 
-}
+    if (searchQuery === '') {
+      alert("Нужно ввести ключевое слово")
+    } else {
+      handleGetMovies()
+    }
+  }
 
-const handleSubmitSearch = (e) => {
- e.preventDefault();
- handleSearchQueryChange(e)
 
- if (searchQuery === '') {
-     console.log("Нужно ввести ключевое слово")
- } else {
-     handleGetMovies()
- }
- localStorage.setItem('search', JSON.stringify(searchQuery));
-}
 
   const handleRegister = ({ email, password, name }) => {
     api.register(email, password, name)
@@ -104,39 +102,36 @@ const handleSubmitSearch = (e) => {
 
   const handleGetMovies = () => {
     setIsLoading(true)
-
+   
+    
+     
     moviesApi.getMovies()
       .then((data) => {
         setTimeout(() => {
           setIsLoading(false)
           setMovies(data)
-
           // console.log(data)
-
+          // setIsFirstSearch(false)
+        
         }, 1000)
 
       })
       .then(() => {
-        console.log(searchQuery)
         console.log(movies)
         setFilteredMovie(movies.filter(function (movie) {
-          // console.log(movie.nameRU)
-          // console.log(search)
           return (movie.nameRU?.toLowerCase()).includes(searchQuery?.toLowerCase())
         }))
+     
        
-        // localStorage.setItem('isShortMovie', JSON.stringify(onlyShortMovie));
-      })
-      .then(() =>{
-        console.log(filteredMovie)
-        if(filteredMovie.length> 0) {
-          localStorage.setItem('list', JSON.stringify(filteredMovie));
-          localStorage.setItem('search', JSON.stringify(searchQuery));
-        }
+      
       })
       .catch(() => {
         console.log('Произошла ошибка')
       })
+     
+      // localStorage.setItem('search', JSON.stringify(searchQuery));
+      // console.log(filteredMovie)
+      
   }
 
   const handleGetSavedMovies = () => {
@@ -146,10 +141,7 @@ const handleSubmitSearch = (e) => {
       .then((data) => {
         setTimeout(() => {
           setIsLoading(false)
-          // setSavedMovies(data)
           setSavedMovies(data.filter(item => {
-            // console.log(item.owner)
-            // console.log(currentUser)
             return item.owner === currentUser._id
           }))
 
@@ -162,10 +154,6 @@ const handleSubmitSearch = (e) => {
   }
 
   const handleAddMovie = (movie, isLiked) => {
-
-
-
-
     if (isLiked) {
       const savedMovieId = savedMovies.find((savedMovie) => {
         return movie.movieId === savedMovie.movieId
@@ -186,37 +174,16 @@ const handleSubmitSearch = (e) => {
     } else {
       api.createMovie(movie)
         .then((newMovie) => {
-
-          // savedMovies.push(newMovie);
           setSavedMovies([...savedMovies, newMovie]);
-          console.log(savedMovies)
         })
 
         .catch(() => console.log('Произошла ошибка'))
     }
-
-
   }
 
   const handleLikeClick = (movie, isLiked) => {
     handleAddMovie(movie, isLiked);
   }
-
-  // console.log(savedMovies)
-
-  // let filterMovieList = movies.filter(function (movie) {
-  //   // return hasStr(movie.nameRU, search)
-  //   // console.log(movie.nameRU)
-  //   // console.log(search)
-  //   return (movie.nameRU?.toLowerCase()).includes(search?.toLowerCase())
-  // })
-
-
-
-  // localStorage.setItem('list', JSON.stringify(filterMovieList));
-  // localStorage.setItem('search', JSON.stringify(searchQuery));
-  // localStorage.setItem('isShortMovie', JSON.stringify(onlyShortMovie));
-
 
   // useEffect(() => {
   //   if(onlyShortMovie){
@@ -231,8 +198,7 @@ const handleSubmitSearch = (e) => {
 
   useEffect(() => {
     tokenCheck()
- 
-
+   
   }, []);
 
   useEffect(() => {
@@ -244,10 +210,64 @@ const handleSubmitSearch = (e) => {
         })
         .catch((err) => console.log(`${err}`))
 
-        handleGetMovies()
         handleGetSavedMovies()
+
+          
+      if (localStorage.getItem('search')?.length > 0 && localStorage.getItem('list')?.length > 0) {
+        console.log('условие')
+        // console.log(localStorage.getItem('list'))
+         setSearchQuery(JSON.parse(localStorage.getItem('search')));
+         setFilteredMovie(JSON.parse(localStorage.getItem('list')))
+        console.log(filteredMovie)
+
+      } 
+
+      if (isFirstSearch) {
+        // handleGetMovies()
+        moviesApi.getMovies()
+        .then((data) => {
+          
+            setMovies(data)
+            // console.log(data)
+            setIsFirstSearch(false)
+          
+          }
+  )
+        // .then(() => {
+        //   console.log(movies)
+        //   setFilteredMovie(movies.filter(function (movie) {
+        //     return (movie.nameRU?.toLowerCase()).includes(searchQuery?.toLowerCase())
+        //   }))
+       
+         
+        
+        // })
+        .catch(() => {
+          console.log('Произошла ошибка')
+        })
+      }
+     
+       
     }
-  }, [loggedIn])
+  }, [loggedIn,isFirstSearch])
+
+
+  useEffect(() => {
+    if (loggedIn && !isFirstSearch) {
+    localStorage.setItem('list', JSON.stringify(filteredMovie));
+    localStorage.setItem('search', JSON.stringify(searchQuery));
+    }}
+  , [filteredMovie,searchQuery, loggedIn, isFirstSearch])
+
+  
+      // if (localStorage.getItem('search')?.length > 0 && localStorage.getItem('list')?.length > 0) {
+      //   console.log('условие')
+      //   // console.log(localStorage.getItem('list'))
+      //    setSearchQuery(JSON.parse(localStorage.getItem('search')));
+      //    setFilteredMovie(JSON.parse(localStorage.getItem('list')))
+      //   console.log(filteredMovie)
+
+      // } 
 
 
 
@@ -277,7 +297,8 @@ const handleSubmitSearch = (e) => {
             handleLikeClick={handleLikeClick}
             savedMovies={savedMovies}
             currentUser={currentUser}
-          
+            isFirstSearch={isFirstSearch}
+
 
           />} />
           {/* {console.log(movies)} */}

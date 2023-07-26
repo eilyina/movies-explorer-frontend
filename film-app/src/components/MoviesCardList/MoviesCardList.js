@@ -5,6 +5,7 @@ import Preloader from '../Preloader/Preloader';
 
 
 function MoviesCardList(props) {
+    console.log(props.movies)
     return (
         <>
             <section className="card-list">

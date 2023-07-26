@@ -18,9 +18,9 @@ function Profile(props) {
     const navigate = useNavigate();
 
     function signOut() {
-        //   localStorage.removeItem('jwt');
-        //   localStorage.removeItem('search');
-        //  localStorage.removeItem('list');
+          localStorage.removeItem('jwt');
+          localStorage.removeItem('search');
+         localStorage.removeItem('list');
         localStorage.clear()
         props.isLogged = false;
         navigate('/signin');

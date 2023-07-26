@@ -24,7 +24,7 @@ function SearchForm(props) {
                         <button type="submit" className="search-form__submit" ></button>
 
 
-                        <input className='search-form__input' placeholder='Фильм' onChange={props.handleSearchQueryChange}>
+                        <input className='search-form__input' placeholder='Фильм' onChange={props.handleSearchQueryChange} defaultValue={props.searchQuery || ''}>
                         </input>
 
                         <button type="submit" className="search-form__submit-orange"></button>
