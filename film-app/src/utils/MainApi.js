@@ -94,9 +94,9 @@ export default class Api {
       });
   }
 
-  deleteCard(idCard) {
+  deleteMovie(idMovie) {
     const token = localStorage.getItem('jwt');
-    return fetch(`${this.url}/cards/${idCard}`, {
+    return fetch(`${this.url}/movies/${idMovie}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',

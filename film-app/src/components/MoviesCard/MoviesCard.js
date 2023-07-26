@@ -9,10 +9,12 @@ function MoviesCard(movie) {
 
     // console.log(movie.savedMovies)
     const user = useContext(CurrentUserContext);
-    // console.log(movie.savedMovies)
+    
     const isLiked = movie.savedMovies.some((savedMovie) => {
         return movie.movieId === savedMovie.movieId && savedMovie.owner === user._id;
     });
+// console.log(movie.savedMovies)
+ 
 
     // const isLiked = false;
 

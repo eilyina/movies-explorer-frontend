@@ -135,8 +135,26 @@ function App() {
 
   const handleAddMovie = (movie, isLiked) => {
 
+
+
+
     if (isLiked) {
-      console.log('удалить')
+      const savedMovieId = savedMovies.find((savedMovie) => {
+        return movie.movieId === savedMovie.movieId
+          && savedMovie.owner === currentUser._id;
+      });
+      console.log(savedMovieId)
+      api.deleteMovie(savedMovieId._id)
+        .then((delMovie) => {
+          const updatedMovies = savedMovies.filter(savedMovie => {
+
+            return savedMovie._id !== delMovie.movie._id && savedMovie.owner === currentUser._id
+          });
+          setSavedMovies(updatedMovies);
+
+        }
+
+        )
     } else {
       api.createMovie(movie)
         .then((newMovie) => {

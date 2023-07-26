@@ -13,7 +13,6 @@ function MoviesCardList(props) {
                     {props.movies.map((movie) =>
                     (
                         <ul className="card-list__list" key={movie.id}>
-                        {console.log(movie)}
                             <MoviesCard  savedMovies={props.savedMovies} 
                                 // id={movie.id}
                                 nameRU={movie.nameRU}
