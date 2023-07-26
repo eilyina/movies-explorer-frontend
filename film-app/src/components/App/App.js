@@ -13,7 +13,7 @@ import { useEffect, useState, useContext } from "react";
 import ProtectedRouteElement from '../ProtectedRouteElement/ProtectedRoute';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import SearchForm from '../SearchForm/SearchForm';
-import { search } from '../SearchForm/SearchForm'
+// import { search } from '../SearchForm/SearchForm'
 
 function App() {
   const [registrationStatus, setRegistrationStatus] = useState('');
@@ -27,9 +27,30 @@ function App() {
   const [movies, setMovies] = useState([]);
   const [savedMovies, setSavedMovies] = useState([]);
   const [filteredMovie, setFilteredMovie] = useState([]);
-  // const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
 
   // console.log(currentUser)
+
+  const handleSearchQueryChange= (e) => {
+    e.preventDefault();
+    setSearchQuery(e.target.value);
+
+// setSearchQuery(props.searchQuery)
+// search = searchQuery;
+
+}
+
+const handleSubmitSearch = (e) => {
+ e.preventDefault();
+ handleSearchQueryChange(e)
+
+ if (searchQuery === '') {
+     console.log("Нужно ввести ключевое слово")
+ } else {
+     handleGetMovies()
+ }
+ localStorage.setItem('search', JSON.stringify(searchQuery));
+}
 
   const handleRegister = ({ email, password, name }) => {
     api.register(email, password, name)
@@ -96,15 +117,22 @@ function App() {
 
       })
       .then(() => {
+        console.log(searchQuery)
+        console.log(movies)
         setFilteredMovie(movies.filter(function (movie) {
           // console.log(movie.nameRU)
           // console.log(search)
-          return (movie.nameRU?.toLowerCase()).includes(search?.toLowerCase())
+          return (movie.nameRU?.toLowerCase()).includes(searchQuery?.toLowerCase())
         }))
-
-        localStorage.setItem('list', JSON.stringify(filteredMovie));
-        localStorage.setItem('search', JSON.stringify(search));
+       
         // localStorage.setItem('isShortMovie', JSON.stringify(onlyShortMovie));
+      })
+      .then(() =>{
+        console.log(filteredMovie)
+        if(filteredMovie.length> 0) {
+          localStorage.setItem('list', JSON.stringify(filteredMovie));
+          localStorage.setItem('search', JSON.stringify(searchQuery));
+        }
       })
       .catch(() => {
         console.log('Произошла ошибка')
@@ -203,7 +231,7 @@ function App() {
 
   useEffect(() => {
     tokenCheck()
-    handleGetSavedMovies()
+ 
 
   }, []);
 
@@ -215,6 +243,9 @@ function App() {
           // console.log(userData)
         })
         .catch((err) => console.log(`${err}`))
+
+        handleGetMovies()
+        handleGetSavedMovies()
     }
   }, [loggedIn])
 
@@ -235,14 +266,18 @@ function App() {
           <Route path="/*" element={<Main loggedIn={loggedIn} />} />
           <Route path="/movies" element={<ProtectedRouteElement
             element={Movies} loggedIn={loggedIn}
-            handleGetMovies={handleGetMovies}
+            // handleGetMovies={handleGetMovies}
+
+            searchQuery={searchQuery}
+            handleSearchQueryChange={handleSearchQueryChange}
+            handleSubmitSearch={handleSubmitSearch}
             handleGetSavedMovies={handleGetSavedMovies}
             isLoading={isLoading}
             movies={filteredMovie}
             handleLikeClick={handleLikeClick}
             savedMovies={savedMovies}
             currentUser={currentUser}
-          // searchQuery={searchQuery}
+          
 
           />} />
           {/* {console.log(movies)} */}

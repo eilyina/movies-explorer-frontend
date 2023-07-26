@@ -11,13 +11,18 @@ import React, { useState, useEffect } from "react";
 function Movies(props) {
     // console.log(`movies ${props.loggedIn}`)
     const search =  localStorage.getItem('search');
-    console.log(search)
+ console.log(search)
     return (
         <>
             <Header isLogged={props.loggedIn}> </Header>
             
             <main className='movie-content'>
-                <SearchForm handleGetMovies={props.handleGetMovies}   searchQuery={props.searchQuery}></SearchForm>
+                <SearchForm 
+                // handleGetMovies={props.handleGetMovies}
+                   handleSearchQueryChange={props.handleSearchQueryChange}
+                   handleSubmitSearch={props.handleSubmitSearch}  
+                 searchQuery={props.searchQuery}
+                 ></SearchForm>
                 {(search === null) ? 
                 <p></p>  :
                 <>{(props.isLoading) ? <Preloader></Preloader> : <MoviesCardList handleLikeClick={props.handleLikeClick} isSavedMovies={false} movies={props.movies}

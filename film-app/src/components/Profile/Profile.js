@@ -6,7 +6,7 @@ import React, { useState, useEffect } from "react";
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import { api } from '../../utils/MainApi';
 import { useFormWithValidation } from '../Hooks/useForm';
-import {setLoggedIn} from '../App/App'
+import { setLoggedIn } from '../App/App'
 
 function Profile(props) {
 
@@ -18,13 +18,19 @@ function Profile(props) {
     const navigate = useNavigate();
 
     function signOut() {
-      localStorage.removeItem('jwt');
-      props.isLogged = false;
-      navigate('/signin');
+        //   localStorage.removeItem('jwt');
+        //   localStorage.removeItem('search');
+        //  localStorage.removeItem('list');
+        localStorage.clear()
+        props.isLogged = false;
+        navigate('/signin');
      
+       
+
+
     }
-  
-    
+
+
 
     useEffect(() => {
         setValues({ name: currentUser.name ?? '', email: currentUser.email ?? '' });
@@ -35,21 +41,22 @@ function Profile(props) {
 
     const handleUpdateUser = (currentUser) => {
         api.updateUserInfo(currentUser)
-          .then((userData) => {
-            // closeAllPopups();
-            // setCurrentUser(userData);
-            handleSaveProfile()
-            setErrorMessage('')
+            .then((userData) => {
+                // closeAllPopups();
+                // setCurrentUser(userData);
+                handleSaveProfile()
+                setErrorMessage('')
 
-            // handleEditProfile();
-    
-          })
-          .catch(() => {
-            handleEditProfile();
-            setErrorMessage("При выполнении запроса произошла ошибка. Попробуйте еще раз или обратитесь к администратору")
-           
-            console.log('Произошла ошибка')})
-      }
+                // handleEditProfile();
+
+            })
+            .catch(() => {
+                handleEditProfile();
+                setErrorMessage("При выполнении запроса произошла ошибка. Попробуйте еще раз или обратитесь к администратору")
+
+                console.log('Произошла ошибка')
+            })
+    }
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -112,9 +119,9 @@ function Profile(props) {
                                     <button type="button" className="profile__edit-button" onClick={handleEditProfile}>Редактировать</button>
                                     <Link to="/" className="profile__logout-link" onClick={signOut}>Выйти из аккаунта</Link>
                                 </>)
-                                
+
                         }
-                         <span className='profile__error'>{errorMessage}</span>
+                        <span className='profile__error'>{errorMessage}</span>
                     </form>
 
                 </section>
