@@ -9,15 +9,19 @@ function MoviesCard(movie) {
 
     // console.log(movie.savedMovies)
     const user = useContext(CurrentUserContext);
-    
-    const isLiked = movie.savedMovies.some((savedMovie) => {
-        return movie.movieId === savedMovie.movieId && savedMovie.owner === user._id;
-    });
-// console.log(movie.savedMovies)
+    const location = useLocation();
+    let isLiked = false;
+
+    if (location.pathname === '/movies' )
+    {
+        isLiked = movie.savedMovies.some((savedMovie) => {
+            return movie.movieId === savedMovie.movieId && savedMovie.owner === user._id;
+        });
+    }
+ 
  
 
     // const isLiked = false;
-
 
 
     // console.log(movie)
@@ -34,14 +38,23 @@ function MoviesCard(movie) {
         movie.handleLikeClick(movie, isLiked);
     }
 
+    // function handleDeleteMovie(movieId) {
+    //     handleDeleteMovie(movieId);
+    // }
+    function handleDeleteMovie() {
+        movie.handleDeleteMovie(movie);
+      }
+
     const cardLikeButtonClassName =
         `card__like ${isLiked && 'card__like_active'}`;
+
+    const cardDeleteButtonClassName = `card__like card__delete-icon` 
 
     // function handleLikeClick() {
     //     card.onCardLike(card);
     //   }
 
-    const location = useLocation();
+  
 
     return (
         <>
@@ -52,7 +65,7 @@ function MoviesCard(movie) {
                     {
 
                         location.pathname === '/saved-movies' ?
-                            <button className="card__like card__delete-icon" type="button"></button>
+                            <button className={cardDeleteButtonClassName} type="button" onClick={handleDeleteMovie}></button>
                             :
                             <button className={cardLikeButtonClassName} type="button" onClick={handleLikeClick} ></button>}
                 </div>

@@ -6,14 +6,20 @@ import SearchForm from '../SearchForm/SearchForm';
 import Footer from '../Footer/Footer';
 
 
-function SavedMovies() {
+function SavedMovies(props) {
 
     return (
+        
         <>
-            <Header isLogged={true}> </Header>
+        {/* { console.log(props.movies)} */}
+            <Header isLogged={props.loggedIn}> </Header>
             <main className='movie-content'>
                 <SearchForm></SearchForm>
-                <MoviesCardList isSavedMovies={true}></MoviesCardList>
+                <MoviesCardList isSavedMovies={true}
+                movies={props.movies}
+                handleDeleteMovie={props.handleDeleteMovie}
+                // savedMovies={props.savedMovies}
+                ></MoviesCardList>
             </main>
             <Footer></Footer>
 
