@@ -275,6 +275,7 @@ function App() {
             loggedIn={loggedIn}
             movies={savedMovies}
             handleDeleteMovie={handleDeleteMovie}
+            savedMovies={savedMovies}
           />} />
           <Route path="/profile" element={<ProtectedRouteElement element={Profile} loggedIn={loggedIn} currentUser={currentUser} />} />
           <Route path="/error" element={<ErrorPage />} />
@@ -289,6 +290,7 @@ function App() {
             handleGetSavedMovies={handleGetSavedMovies}
             isLoading={isLoading}
             movies={filteredMovie}
+          // {console.log(filteredMovie)}
             handleLikeClick={handleLikeClick}
             savedMovies={savedMovies}
             currentUser={currentUser}

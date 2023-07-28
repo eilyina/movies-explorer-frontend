@@ -10,8 +10,8 @@ import React, { useState, useEffect } from "react";
 
 function Movies(props) {
 
-    const searchQuery = JSON.parse(localStorage.getItem('search'));
-    // console.log(props.searchQuery)
+    // const searchQuery = JSON.parse(localStorage.getItem('search'));
+    // console.log(props)
 
     return (
         <>
@@ -31,7 +31,12 @@ function Movies(props) {
                
                 {(props.movies.length === 0 && props.searchQuery === '') ?
                     <p></p> :
-                    <>{(props.isLoading) ? <Preloader></Preloader> : <MoviesCardList handleLikeClick={props.handleLikeClick} isSavedMovies={false} movies={props.movies}
+                    <>{(props.isLoading) ? <Preloader></Preloader> 
+                    : 
+                    <MoviesCardList 
+                    handleLikeClick={props.handleLikeClick} 
+                    // isSavedMovies={false} 
+                    movies={props.movies}
                         savedMovies={props.savedMovies}
                     ></MoviesCardList>}
                     </>

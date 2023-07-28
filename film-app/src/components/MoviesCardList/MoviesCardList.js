@@ -13,7 +13,7 @@ function MoviesCardList(props) {
     console.log(props.movies)
     return (
         <>
-         {/* {console.log(props.movies)} */}
+         {console.log(props.movies)} 
             <section className="card-list">
                 {props.movies.length === 0 ? <p>Ничего не найдено</p> :
                 
@@ -24,9 +24,10 @@ function MoviesCardList(props) {
                         (
                             
 
-                            <ul className="card-list__list" key={movie.id}>
+                            <ul className="card-list__list" key={(location.pathname === '/movies') ? movie.id : movie.movieId}>
 
-                                <MoviesCard savedMovies={props.savedMovies}
+                                <MoviesCard 
+                                //  key={movie.id}
                                     // id={movie.id}
                                  
                                     nameRU={movie.nameRU}
@@ -44,49 +45,14 @@ function MoviesCardList(props) {
 
                                     handleLikeClick={props.handleLikeClick}
                                     handleDeleteMovie={props.handleDeleteMovie}
+                                    savedMovies={props.savedMovies}
 
-                                // {"country":"country1",
-                                // "director":"F Jonson1",
-                                // "duration":"132",
-                                // "year":"2023",
-                                // "description":"description",
-                                // "image":"https://www.kinopoisk.ru/series/708110/",
-                                // "trailerLink":"https://www.kinopoisk.ru/series/708110/",
-                                // "nameRU":"Код убийства",
-                                // "nameEN":"The Bletchley Circle",
-                                // "thumbnail":"https://www.kinopoisk.ru/series/708110/",
-                                // "movieId":"8879997"}
-
-
-
-                                // {this.props.items.map((item, index) =>
-                                //     <a href={item.link} key={index}>{item.label}</a>
-                                //   )
-                                // }
-                                // owner={card.owner}
-                                // link={card.link}
-                                // likes={card.likes}
-                                // onCardClick={props.onCardClick}
-                                // onCardLike={props.onCardLike}
-                                // onCardDelete={props.onCardDelete}
                                 ></MoviesCard>
                             </ul>
                         ))
                         }
                     </>}
 
-
-
-
-                {/* <ul className="card-list__list">
-                <MoviesCard card={{"name":"alt_1"}}></MoviesCard>
-                <MoviesCard card={{"name":"alt_2"}}></MoviesCard>
-                <MoviesCard card={{"name":"alt_3"}}></MoviesCard>
-                <MoviesCard card={{"name":"alt_4"}}></MoviesCard>
-                <MoviesCard card={{"name":"alt_5"}}></MoviesCard>
-                {/* <Preloader></Preloader> 
-
-            </ul> */}
                 { (location.pathname === '/movies' ) ?
                     <button className={props.isSavedMovies ? "more-button more-button__type_saved-movies" : "more-button"} type='button'>Ещё</button>
                     : <div></div>

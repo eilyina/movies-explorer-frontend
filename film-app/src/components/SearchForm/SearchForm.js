@@ -19,7 +19,9 @@ function SearchForm(props) {
     return (
         <>
             <section className='search-form'>
-                <form className='search-form__form' method="post" onSubmit={props.handleSubmitSearch} onChange={props.handleSearchQueryChange}>
+                <form className='search-form__form' method="post" onSubmit={props.handleSubmitSearch} 
+                // onChange={props.handleSearchQueryChange}
+                >
                     <div className='search-form__input-wide'>
                         <button type="submit" className="search-form__submit" ></button>
 
