@@ -19,3 +19,13 @@ npm run build
 * код разбит на компоненты React
 
 [Ссылка на макет](https://drive.google.com/file/d/1J2rrzIs8BUAHIF-JGWz4chTe2rA9FaZc/view?usp=drive_link)
+
+[Ссылка на pull request](https://github.com/eilyina/movies-explorer-frontend/pull/2)
+
+## Ссылки на проект
+
+IP 51.250.79.193
+
+Frontend https://eilyina.nomoredomains.rocks
+
+Backend https://api.eilyina.nomoredomains.rocks
