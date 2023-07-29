@@ -9,7 +9,7 @@ import { useFormWithValidation } from '../Hooks/useForm';
 import { setLoggedIn } from '../App/App'
 
 function Profile(props) {
-
+console.log(props)
     const currentUser = React.useContext(CurrentUserContext);
     const [isEditProfile, setIsEditProfile] = useState(false);
     // const [formValue, setFormValue] = useState({ name: '', email: '' })
@@ -23,7 +23,7 @@ function Profile(props) {
         localStorage.removeItem('list');
         localStorage.removeItem('listSavedMovies');
         localStorage.clear()
-        props.isLogged = false;
+        props.setLoggedIn(false);
         navigate('/signin');
     }
 
@@ -78,7 +78,7 @@ function Profile(props) {
             {/* <Header isLogged={true}></Header> */}
             <main className="profile">
                 <section className="profile__section">
-                    <h1 className="profile__title">{`Привет, ${currentUser.name ?? ''}!`}</h1>
+                    <h1 className="profile__title">{`Привет, ${values.name ?? ''}!`}</h1>
                     <form className="profile__form" method="post" onSubmit={handleSubmit}>
 
                         <Input input={"input-profile"}

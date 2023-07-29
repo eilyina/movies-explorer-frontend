@@ -274,7 +274,7 @@ function App() {
             savedMovies={savedMovies}
             isShort={handleOnlyShortMovie}
           />} />
-          <Route path="/profile" element={<ProtectedRouteElement element={Profile} loggedIn={loggedIn} currentUser={currentUser} />} />
+          <Route path="/profile" element={<ProtectedRouteElement element={Profile} setLoggedIn={setLoggedIn} loggedIn={loggedIn} currentUser={currentUser} />} />
           <Route path="/error" element={<ErrorPage />} />
           <Route path="/*" element={<Main loggedIn={loggedIn} />} />
           <Route path="/movies" element={<ProtectedRouteElement
