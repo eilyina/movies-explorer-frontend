@@ -20,10 +20,10 @@ function App() {
   const [currentUser, setCurrentUser] = useState({});
   const [loggedIn, setLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [onlyShortMovie, setOnlyShortMovie] = useState(false);
+  const [onlyShortMovie, setOnlyShortMovie] = useState(JSON.parse(localStorage.getItem('onlyShortMovie')) || false);
   const navigate = useNavigate()
-  const location = useLocation()
-  const [userData, setUserData] = useState({ email: '', name: '' })
+  // const location = useLocation()
+  // const [userData, setUserData] = useState({ email: '', name: '' })
   const [movies, setMovies] = useState([]);
   const [savedMovies, setSavedMovies] = useState(JSON.parse(localStorage.getItem('listSavedMovies')) || []);
   // const [savedMovies, setSavedMovies] = useState([]);
@@ -32,6 +32,14 @@ function App() {
   const [searchQuery, setSearchQuery] = useState(JSON.parse(localStorage.getItem('search')) || '');
 
   // console.log(currentUser)
+
+  const handleOnlyShortMovie = (e) => {
+    // e.preventDefault();
+    setOnlyShortMovie(!onlyShortMovie);
+    console.log(onlyShortMovie)
+  }
+
+
 
   const handleSearchQueryChange = (e) => {
     e.preventDefault();
@@ -104,41 +112,41 @@ function App() {
   const handleGetMovies = () => {
     setIsLoading(true)
 
-
-
     moviesApi.getMovies()
       .then((data) => {
         setTimeout(() => {
           setIsLoading(false)
           setMovies(data)
-          // console.log(data)
-
-
         }, 1000)
+
+        localStorage.setItem('list', JSON.stringify(filteredMovie));
+        localStorage.setItem('search', JSON.stringify(searchQuery));
+        localStorage.setItem('onlyShortMovie', JSON.stringify(onlyShortMovie));
 
       })
       .then(() => {
         console.log(movies)
         setFilteredMovie(movies.filter(function (movie) {
-          return (movie.nameRU?.toLowerCase()).includes(searchQuery?.toLowerCase())
+          return (onlyShortMovie ?
+            (movie.duration < 40 &&
+              (((movie.nameRU?.toLowerCase()).includes(searchQuery?.toLowerCase())) ||
+                ((movie.nameEN?.toLowerCase()).includes(searchQuery?.toLowerCase())))
+            )
+
+            :
+            (((movie.nameRU?.toLowerCase()).includes(searchQuery?.toLowerCase())) ||
+              ((movie.nameEN?.toLowerCase()).includes(searchQuery?.toLowerCase())))
+          )
         }))
-
-
-
       })
       .catch(() => {
         console.log('Произошла ошибка')
       })
-    // setIsFirstSearch(false)
-
-    // localStorage.setItem('search', JSON.stringify(searchQuery));
-    // console.log(filteredMovie)
 
   }
 
   const handleGetSavedMovies = () => {
     setIsLoading(true)
-
     api.getSavedMovies()
       .then((data) => {
         setTimeout(() => {
@@ -205,17 +213,6 @@ function App() {
       .catch(() => console.log('Произошла ошибка'))
   }
 
-  // useEffect(() => {
-  //   if(onlyShortMovie){
-  //     filterMovieList = movies.filter((movie) => movie.duration < 40);
-  //   }
-
-  // }, [onlyShortMovie,filterMovieList]);
-
-  // const shortMovies = movies.filter((movie) => movie.duration < 40)
-  // console.log(shortMovies)
-
-
   useEffect(() => {
     tokenCheck()
 
@@ -234,7 +231,7 @@ function App() {
           setCurrentUser({ name, email, _id });
           setMovies(moviesData)
           setSavedMoviesNoFilter(savedMoviesData)
-       
+
         })
         .catch(() => {
           console.log('Произошла ошибка')
@@ -248,22 +245,21 @@ function App() {
       setSavedMovies(savedMoviesNoFilter.filter((item) => item.owner === currentUser._id));
     }
   }
-    , [ loggedIn, savedMoviesNoFilter,currentUser._id])
+    , [loggedIn, savedMoviesNoFilter, currentUser._id])
 
 
   useEffect(() => {
     if (loggedIn) {
-      localStorage.setItem('list', JSON.stringify(filteredMovie));
-      localStorage.setItem('search', JSON.stringify(searchQuery));
       localStorage.setItem('listSavedMovies', JSON.stringify(savedMovies));
+      if (searchQuery !== '') {
+        handleGetMovies()
+      }
     }
+
   }
-    , [filteredMovie, searchQuery, loggedIn, savedMovies])
+    , [loggedIn, savedMovies, onlyShortMovie])
+  // , [filteredMovie, searchQuery, loggedIn, savedMovies, onlyShortMovie])
 
-
-
-  // console.log(currentUser)
-  //   getMovies();
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
@@ -276,6 +272,7 @@ function App() {
             movies={savedMovies}
             handleDeleteMovie={handleDeleteMovie}
             savedMovies={savedMovies}
+            isShort={handleOnlyShortMovie}
           />} />
           <Route path="/profile" element={<ProtectedRouteElement element={Profile} loggedIn={loggedIn} currentUser={currentUser} />} />
           <Route path="/error" element={<ErrorPage />} />
@@ -290,14 +287,12 @@ function App() {
             handleGetSavedMovies={handleGetSavedMovies}
             isLoading={isLoading}
             movies={filteredMovie}
-          // {console.log(filteredMovie)}
             handleLikeClick={handleLikeClick}
             savedMovies={savedMovies}
             currentUser={currentUser}
-
-
+            isShort={handleOnlyShortMovie}
           />} />
-          {/* {console.log(movies)} */}
+
         </Routes>
       </>
     </CurrentUserContext.Provider>

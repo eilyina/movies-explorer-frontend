@@ -23,6 +23,7 @@ function Movies(props) {
                     handleSearchQueryChange={props.handleSearchQueryChange}
                     handleSubmitSearch={props.handleSubmitSearch}
                     searchQuery={props.searchQuery}
+                    isShort={props.isShort}
                 //    {(localStorage.getItem('search')?.length > 0 && localStorage.getItem('list')?.length >0) ?
                 //    searchQuery :
                 //     props.searchQuery}

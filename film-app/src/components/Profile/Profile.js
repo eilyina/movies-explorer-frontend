@@ -25,12 +25,7 @@ function Profile(props) {
         localStorage.clear()
         props.isLogged = false;
         navigate('/signin');
-
-
-
-
     }
-
 
 
     useEffect(() => {

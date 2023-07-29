@@ -5,8 +5,6 @@ import Preloader from '../Preloader/Preloader';
 import { useLocation } from 'react-router-dom';
 import { useState, useEffect, useCallback } from "react";
 
-
-
 function MoviesCardList(props) {
     const location = useLocation();
     const [showMore, setShowMore] = useState(true);
@@ -58,7 +56,7 @@ function MoviesCardList(props) {
         <>
             {console.log(props.movies)}
             <section className="card-list">
-                <h2>Width: {width}</h2>
+                {/* <h2>Width: {width}</h2> */}
 
                 {props.movies.length === 0 ? <p>Ничего не найдено</p> :
                     (location.pathname === '/movies') ?

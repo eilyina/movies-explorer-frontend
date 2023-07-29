@@ -12,14 +12,13 @@ function MoviesCard(movie) {
     const location = useLocation();
     let isLiked = false;
 
-    if (location.pathname === '/movies' )
-    {
+    if (location.pathname === '/movies') {
         isLiked = movie.savedMovies.some((savedMovie) => {
             return movie.movieId === savedMovie.movieId && savedMovie.owner === user._id;
         });
     }
- 
- 
+
+
 
     // const isLiked = false;
 
@@ -43,18 +42,18 @@ function MoviesCard(movie) {
     // }
     function handleDeleteMovie() {
         movie.handleDeleteMovie(movie);
-      }
+    }
 
     const cardLikeButtonClassName =
         `card__like ${isLiked && 'card__like_active'}`;
 
-    const cardDeleteButtonClassName = `card__like card__delete-icon` 
+    const cardDeleteButtonClassName = `card__like card__delete-icon`
 
     // function handleLikeClick() {
     //     card.onCardLike(card);
     //   }
 
-  
+
 
     return (
         <>

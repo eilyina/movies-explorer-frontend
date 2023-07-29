@@ -1,21 +1,9 @@
 import FilterCheckbox from '../FilterCheckbox/FilterCheckbox';
 import './SearchForm.css'
 import React, { useState } from "react";
-// export let search = ''
+
 function SearchForm(props) {
 
-    
-
-    // function handleSearchQueryChange(e) {
-    //     e.preventDefault();
-    //     props.searchQuery(e.target.value);
-    //     setSearchQuery(props.searchQuery)
-    //     // search = searchQuery;
-
-    // }
-
-
-   
     return (
         <>
             <section className='search-form'>
@@ -32,9 +20,9 @@ function SearchForm(props) {
                         <button type="submit" className="search-form__submit-orange"></button>
 
                     </div>
-                   
+                    <FilterCheckbox isShort={props.isShort}></FilterCheckbox>
                 </form>
-                <FilterCheckbox></FilterCheckbox>
+                {/* <FilterCheckbox></FilterCheckbox> */}
             </section>
 
         </>
