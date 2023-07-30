@@ -113,7 +113,7 @@ console.log(props)
                                 (<>
 
                                     <button type="button" className="profile__edit-button" onClick={handleEditProfile}>Редактировать</button>
-                                    <Link to="/" className="profile__logout-link" onClick={signOut}>Выйти из аккаунта</Link>
+                                    <Link to="/" className="profile__logout-link" onClick={props.signOut}>Выйти из аккаунта</Link>
                                 </>)
 
                         }

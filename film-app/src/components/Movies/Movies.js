@@ -12,6 +12,7 @@ function Movies(props) {
 
     // const searchQuery = JSON.parse(localStorage.getItem('search'));
     // console.log(props)
+    console.log(props.isShortValue)
 
     return (
         <>
@@ -24,6 +25,7 @@ function Movies(props) {
                     handleSubmitSearch={props.handleSubmitSearch}
                     searchQuery={props.searchQuery}
                     isShort={props.isShort}
+                    isShortValue={props.isShortValue}
                 //    {(localStorage.getItem('search')?.length > 0 && localStorage.getItem('list')?.length >0) ?
                 //    searchQuery :
                 //     props.searchQuery}

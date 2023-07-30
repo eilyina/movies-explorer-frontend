@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 
 
 function SavedMovies(props) {
-    console.log(props)
+ 
     const [searchQuery, setSearchQuery] = useState('');
     const [filteredSavedMovies, setFilteredSavedMovies] = useState(props.movies);
     const [isShort, setIsShort] = useState(false);
@@ -34,9 +34,9 @@ function SavedMovies(props) {
             alert("Нужно ввести ключевое слово")
         } else {
             setFilteredSavedMovies(handleFilterSavedMovies(searchQuery, filteredSavedMovies, isShort))
-            console.log(searchQuery)
-            console.log(filteredSavedMovies)
-            console.log(isShort)
+            // console.log(searchQuery)
+            // console.log(filteredSavedMovies)
+            // console.log(isShort)
         }
     }
 
@@ -56,12 +56,11 @@ function SavedMovies(props) {
         })
 
     }
-    console.log(filteredSavedMovies)
-    // console.log(savedMovies)
+   
 
     useEffect(() => {
         setFilteredSavedMovies(props.savedMovies)
-        console.log('olol')
+
 
     }, [props.savedMovies]);
 

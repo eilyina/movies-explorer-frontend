@@ -51,10 +51,10 @@ function MoviesCardList(props) {
 
 
 
-    console.log(props.movies)
+
     return (
         <>
-            {console.log(props.movies)}
+    
             <section className="card-list">
                 {/* <h2>Width: {width}</h2> */}
 

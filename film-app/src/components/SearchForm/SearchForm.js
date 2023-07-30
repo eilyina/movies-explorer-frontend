@@ -3,6 +3,7 @@ import './SearchForm.css'
 import React, { useState } from "react";
 
 function SearchForm(props) {
+    console.log(props.isShortValue)
 
     return (
         <>
@@ -20,7 +21,7 @@ function SearchForm(props) {
                         <button type="submit" className="search-form__submit-orange"></button>
 
                     </div>
-                    <FilterCheckbox isShort={props.isShort}></FilterCheckbox>
+                    <FilterCheckbox isShort={props.isShort} isShortValue={props.isShortValue}></FilterCheckbox>
                 </form>
                 {/* <FilterCheckbox></FilterCheckbox> */}
             </section>
