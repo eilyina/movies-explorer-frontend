@@ -2,30 +2,24 @@ import Input from '../Input/Input';
 import './Profile.css'
 import { Link, useNavigate } from 'react-router-dom'
 import Header from '../Header/Header';
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import { api } from '../../utils/MainApi';
 import { useFormWithValidation } from '../Hooks/useForm';
 import { setLoggedIn } from '../App/App'
 
 function Profile(props) {
-console.log(props)
-    const currentUser = React.useContext(CurrentUserContext);
+
+    const currentUser = useContext(CurrentUserContext);
+    // const { user, setUserContext } = useContext(UserContext);
     const [isEditProfile, setIsEditProfile] = useState(false);
     // const [formValue, setFormValue] = useState({ name: '', email: '' })
     const { values, handleChange, errors, isValid, resetForm, setValues } = useFormWithValidation();
     const [errorMessage, setErrorMessage] = useState('');
-    const navigate = useNavigate();
 
-    function signOut() {
-        localStorage.removeItem('jwt');
-        localStorage.removeItem('search');
-        localStorage.removeItem('list');
-        localStorage.removeItem('listSavedMovies');
-        localStorage.clear()
-        props.setLoggedIn(false);
-        navigate('/signin');
-    }
+
+    console.log(currentUser)
+
 
 
     useEffect(() => {
@@ -33,24 +27,24 @@ console.log(props)
 
     }, [currentUser]);
 
-    // console.log(currentUser)
+    console.log(currentUser)
 
     const handleUpdateUser = (currentUser) => {
         api.updateUserInfo(currentUser)
             .then((userData) => {
-                // closeAllPopups();
-                // setCurrentUser(userData);
-                handleSaveProfile()
-                setErrorMessage('')
+                // setValues({ name: currentUser.name ?? '', email: currentUser.email ?? '' });
 
-                // handleEditProfile();
+                handleSaveProfile()
+
+                console.log(currentUser)
+                setErrorMessage("Данные успешно обновлены")
 
             })
             .catch(() => {
                 handleEditProfile();
                 setErrorMessage("При выполнении запроса произошла ошибка. Попробуйте еще раз или обратитесь к администратору")
 
-                console.log('Произошла ошибка')
+                // console.log('Произошла ошибка')
             })
     }
 
@@ -58,7 +52,6 @@ console.log(props)
         e.preventDefault();
         const { name, email } = values;
         handleUpdateUser({ name, email })
-        // handleSaveProfile()
     }
 
     function handleEditProfile() {
@@ -106,18 +99,21 @@ console.log(props)
                             errors={errors.email}
                             onChange={handleChange}>
                         </Input>
+
                         {
                             isEditProfile ?
-                                (< button type="submit" className="profile__save-button" disabled={!isValid}>Сохранить</button>)
+                                (< button type="submit" className="profile__save-button"
+                                    disabled={!isValid || (currentUser.name === values.name && currentUser.email === values.email)}>Сохранить</button>)
                                 :
                                 (<>
 
+                                    <span className='profile__error'>{errorMessage}</span>
                                     <button type="button" className="profile__edit-button" onClick={handleEditProfile}>Редактировать</button>
                                     <Link to="/" className="profile__logout-link" onClick={props.signOut}>Выйти из аккаунта</Link>
                                 </>)
 
                         }
-                        <span className='profile__error'>{errorMessage}</span>
+
                     </form>
 
                 </section>

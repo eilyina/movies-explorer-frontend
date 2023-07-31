@@ -34,28 +34,29 @@ function App() {
   const [searchQuery, setSearchQuery] = useState('');
   const localSearchQuery = localStorage.getItem('search')
   const localOnlyShortMoviie = localStorage.getItem('onlyShortMovie')
-  
+
 
 
   console.log(localOnlyShortMoviie)
   console.log(onlyShortMovie)
 
-  
+
 
   const handleOnlyShortMovie = (e) => {
     if (searchQuery === '' || searchQuery == null) {
-      alert("Нужно ввести ключевое слово")}
-      else {
-        // const { checked } = e.target;
-        // console.log(checked)
-   
-        // setOnlyShortMovie(checked);
-        setOnlyShortMovie(!onlyShortMovie);
-        // localStorage.setItem('onlyShortMovie', JSON.stringify(onlyShortMovie));
-      }
-    
-  
-   
+      alert("Нужно ввести ключевое слово")
+    }
+    else {
+      // const { checked } = e.target;
+      // console.log(checked)
+
+      // setOnlyShortMovie(checked);
+      setOnlyShortMovie(!onlyShortMovie);
+      // localStorage.setItem('onlyShortMovie', JSON.stringify(onlyShortMovie));
+    }
+
+
+
   }
 
 
@@ -67,7 +68,7 @@ function App() {
 
   const handleSubmitSearch = (e) => {
     e.preventDefault();
-   
+
     handleSearchQueryChange(e)
     console.log(searchQuery)
 
@@ -272,7 +273,7 @@ function App() {
           console.log('Произошла ошибка')
         })
 
-        
+
 
     }
   }, [loggedIn])
@@ -284,11 +285,11 @@ function App() {
   }
     , [loggedIn, savedMoviesNoFilter, currentUser._id])
 
-    useEffect(() => {
-      setSearchQuery(JSON.parse(localSearchQuery));
-      setOnlyShortMovie(JSON.parse(localOnlyShortMoviie));
-    }
-      , [localSearchQuery,localOnlyShortMoviie])
+  useEffect(() => {
+    setSearchQuery(JSON.parse(localSearchQuery));
+    setOnlyShortMovie(JSON.parse(localOnlyShortMoviie));
+  }
+    , [localSearchQuery, localOnlyShortMoviie])
 
 
   useEffect(() => {
@@ -337,7 +338,7 @@ function App() {
             savedMovies={savedMovies}
             currentUser={currentUser}
             isShort={handleOnlyShortMovie}
-            isShortValue={onlyShortMovie} 
+            isShortValue={onlyShortMovie}
 
           />} />
 
