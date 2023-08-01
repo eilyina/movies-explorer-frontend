@@ -2,7 +2,7 @@ import './FilterCheckbox.css'
 import React, { useState } from "react";
 
 function FilterCheckbox(props) {
-console.log(props.isShortValue)
+// console.log(props.isShortValue)
     return (
         <>
 

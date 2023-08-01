@@ -12,7 +12,7 @@ function Movies(props) {
 
     // const searchQuery = JSON.parse(localStorage.getItem('search'));
     // console.log(props)
-    console.log(props.isShortValue)
+    // console.log(props.movies)
 
     return (
         <>
@@ -32,7 +32,7 @@ function Movies(props) {
 
                 ></SearchForm>
                
-                {(props.movies.length === 0 && props.searchQuery === '') ?
+                {((props.movies.length === 0) && props.searchQuery) ?
                     <p></p> :
                     <>{(props.isLoading) ? <Preloader></Preloader> 
                     : 

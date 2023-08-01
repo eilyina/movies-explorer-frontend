@@ -7,7 +7,6 @@ import { useContext, useState, useEffect } from "react";
 
 function MoviesCard(movie) {
 
-    // console.log(movie.savedMovies)
     const user = useContext(CurrentUserContext);
     const location = useLocation();
     let isLiked = false;
@@ -18,28 +17,10 @@ function MoviesCard(movie) {
         });
     }
 
-
-
-    // const isLiked = false;
-
-
-    // console.log(movie)
-    // const isLiked = movie.owner === user._id;
-
-    // const isLiked = card.likes.some((i) => {
-    //   // console.log(i._id)
-    //   // console.log(user._id)
-    //   return i === user._id
-    // });
-    // const isLiked =true;
-
     function handleLikeClick() {
         movie.handleLikeClick(movie, isLiked);
     }
 
-    // function handleDeleteMovie(movieId) {
-    //     handleDeleteMovie(movieId);
-    // }
     function handleDeleteMovie() {
         movie.handleDeleteMovie(movie);
     }
@@ -48,11 +29,6 @@ function MoviesCard(movie) {
         `card__like ${isLiked && 'card__like_active'}`;
 
     const cardDeleteButtonClassName = `card__like card__delete-icon`
-
-    // function handleLikeClick() {
-    //     card.onCardLike(card);
-    //   }
-
 
 
     return (

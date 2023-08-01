@@ -3,7 +3,6 @@ import './SearchForm.css'
 import React, { useState } from "react";
 
 function SearchForm(props) {
-    console.log(props.isShortValue)
 
     return (
         <>

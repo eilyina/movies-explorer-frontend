@@ -17,17 +17,10 @@ function Profile(props) {
     const { values, handleChange, errors, isValid, resetForm, setValues } = useFormWithValidation();
     const [errorMessage, setErrorMessage] = useState('');
 
-
-    console.log(currentUser)
-
-
-
     useEffect(() => {
         setValues({ name: currentUser.name ?? '', email: currentUser.email ?? '' });
 
     }, [currentUser]);
-
-    console.log(currentUser)
 
     const handleUpdateUser = (currentUser) => {
         api.updateUserInfo(currentUser)
