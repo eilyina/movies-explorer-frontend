@@ -29,6 +29,8 @@ function App() {
   const [searchQuery, setSearchQuery] = useState('');
   const localSearchQuery = localStorage.getItem('search')
   const localOnlyShortMoviie = localStorage.getItem('onlyShortMovie')
+  const localFilteredMovies= localStorage.getItem('list')
+
 
   const handleOnlyShortMovie = (e) => {
     setSearchQuery(JSON.parse(localSearchQuery));
@@ -37,6 +39,8 @@ function App() {
     }
     else {
       setOnlyShortMovie(!onlyShortMovie);
+      console.log(onlyShortMovie)
+      // handleGetMovies()
     }
   }
 
@@ -49,6 +53,8 @@ function App() {
     e.preventDefault();
 
     handleSearchQueryChange(e)
+    setSearchQuery(JSON.parse(localSearchQuery));
+    setOnlyShortMovie(JSON.parse(onlyShortMovie));
     console.log(searchQuery)
 
     if (searchQuery === '' || searchQuery == null) {
@@ -111,7 +117,10 @@ function App() {
   }
 
   const handleGetMovies = () => {
+    console.log('handleGetMovies')
     setIsLoading(true)
+    localStorage.setItem('search', JSON.stringify(searchQuery));
+    localStorage.setItem('onlyShortMovie', JSON.stringify(onlyShortMovie));
 
     moviesApi.getMovies()
       .then((data) => {
@@ -121,7 +130,10 @@ function App() {
         }, 1000)
 
       })
-      .then(() => {
+      .catch(() => {
+        console.log('Произошла ошибка')
+      })
+     
         setFilteredMovie(movies.filter(function (movie) {
           return (onlyShortMovie ?
             (movie.duration < 40 &&
@@ -137,15 +149,10 @@ function App() {
 
         )
 
+        localStorage.setItem('list', JSON.stringify(filteredMovie));
 
-      })
-      .catch(() => {
-        console.log('Произошла ошибка')
-      })
-
-    localStorage.setItem('list', JSON.stringify(filteredMovie));
-    localStorage.setItem('search', JSON.stringify(searchQuery));
-    localStorage.setItem('onlyShortMovie', JSON.stringify(onlyShortMovie));
+    // 
+    // console.log(filteredMovie)
 
   }
 
@@ -218,19 +225,20 @@ function App() {
   }
 
   function signOut() {
+    setLoggedIn(false);
     localStorage.removeItem('jwt');
     localStorage.removeItem('search');
     localStorage.removeItem('list');
     localStorage.removeItem('listSavedMovies');
+    setFilteredMovie([])
     localStorage.clear()
-    setSearchQuery('');
-    setOnlyShortMovie(false);
-    setLoggedIn(false);
+    
     navigate('/signin');
   }
 
   useEffect(() => {
     tokenCheck()
+    console.log("useEffect1")
 
   }, []);
 
@@ -252,6 +260,14 @@ function App() {
         .catch(() => {
           console.log('Произошла ошибка')
         })
+        
+        // console.log(localFilteredMovies)
+        if (localFilteredMovies) {
+          console.log(JSON.parse(localFilteredMovies))  
+          setFilteredMovie(JSON.parse(localFilteredMovies));
+        }
+        console.log(filteredMovie)
+        console.log("useEffect2")
 
 
 
@@ -261,6 +277,7 @@ function App() {
   useEffect(() => {
     if (loggedIn) {
       setSavedMovies(savedMoviesNoFilter.filter((item) => item.owner === currentUser._id));
+      console.log("useEffect3")
     }
   }
     , [loggedIn, savedMoviesNoFilter, currentUser._id])
@@ -268,6 +285,8 @@ function App() {
   useEffect(() => {
     setSearchQuery(JSON.parse(localSearchQuery));
     setOnlyShortMovie(JSON.parse(localOnlyShortMoviie));
+    // setFilteredMovie(JSON.parse(localFilteredMovies));
+    console.log("useEffect4")
   }
     , [localSearchQuery, localOnlyShortMoviie])
 
@@ -275,22 +294,26 @@ function App() {
   useEffect(() => {
     if (loggedIn) {
       localStorage.setItem('listSavedMovies', JSON.stringify(savedMovies));
-
+      console.log("useEffect5")
     }
 
   }
     , [loggedIn, savedMovies])
 
 
-  useEffect(() => {
-    if (loggedIn) {
-      if (searchQuery !== '') {
-        handleGetMovies()
-      }
-    }
+  // useEffect(() => {
+  //   if (loggedIn) {
+  //     if (searchQuery !== '') {
+  //       handleGetMovies()
+  //       console.log("useEffect6")
+  //     }
+  //   }
 
-  }
-    , [loggedIn, onlyShortMovie])
+  // }
+  //   , [loggedIn, onlyShortMovie])
+
+
+
 
 
   useEffect(() => {
@@ -328,7 +351,7 @@ function App() {
             handleSubmitSearch={handleSubmitSearch}
             handleGetSavedMovies={handleGetSavedMovies}
             isLoading={isLoading}
-            movies={filteredMovie}
+            movies={filteredMovie ? filteredMovie : []}
             handleLikeClick={handleLikeClick}
             savedMovies={savedMovies}
             currentUser={currentUser}

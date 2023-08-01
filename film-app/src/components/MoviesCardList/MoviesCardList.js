@@ -54,11 +54,13 @@ function MoviesCardList(props) {
 
     return (
         <>
-    
+    {console.log(props.movies)}
             <section className="card-list">
                 {/* <h2>Width: {width}</h2> */}
-
-                {props.movies.length === 0 ? <p>Ничего не найдено</p> :
+               { props.movies === null ? <p></p> :
+                
+                
+                props.movies.length === 0 ? <p>Ничего не найдено</p> :
                     (location.pathname === '/movies') ?
                         <>
                             {props.movies.slice(0, numberOfMovies).map((movie) =>
@@ -133,6 +135,7 @@ function MoviesCardList(props) {
                         </>
 
                 }
+            
 
                 {(location.pathname === '/movies') && !showMore ?
                     <button className={props.isSavedMovies ? "more-button more-button__type_saved-movies" : "more-button"} type='button' onClick={handleShowMoreClick}>Ещё</button>

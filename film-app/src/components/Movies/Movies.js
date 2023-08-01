@@ -14,6 +14,12 @@ function Movies(props) {
     // console.log(props)
     // console.log(props.movies)
 
+    // useEffect(() => {
+       
+    //     console.log("useEffectMovies")
+    
+    //   }, [props.movies]);
+
     return (
         <>
             <Header isLogged={props.loggedIn}> </Header>
