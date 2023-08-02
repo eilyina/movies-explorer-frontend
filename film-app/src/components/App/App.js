@@ -20,28 +20,30 @@ function App() {
   const [currentUser, setCurrentUser] = useState({});
   const [loggedIn, setLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [onlyShortMovie, setOnlyShortMovie] = useState(false);
+
   const navigate = useNavigate()
   const [movies, setMovies] = useState([]);
   const [savedMovies, setSavedMovies] = useState([]);
-  const [filteredMovie, setFilteredMovie] = useState([]);
+  const localFilteredMovies = localStorage.getItem('list')
+  const [filteredMovie, setFilteredMovie] = useState(localFilteredMovies ? JSON.parse(localFilteredMovies) : []);
   const [savedMoviesNoFilter, setSavedMoviesNoFilter] = useState([]);
-  const [searchQuery, setSearchQuery] = useState('');
+
   const localSearchQuery = localStorage.getItem('search')
+  const [searchQuery, setSearchQuery] = useState(localSearchQuery ? JSON.parse(localSearchQuery) : '');
   const localOnlyShortMoviie = localStorage.getItem('onlyShortMovie')
-  const localFilteredMovies= localStorage.getItem('list')
+  const [onlyShortMovie, setOnlyShortMovie] = useState(localOnlyShortMoviie ? JSON.parse(localOnlyShortMoviie) : false);
+
 
 
   const handleOnlyShortMovie = (e) => {
-    setSearchQuery(JSON.parse(localSearchQuery));
-    if (searchQuery === '' || searchQuery == null) {
-      alert("Нужно ввести ключевое слово")
-    }
-    else {
+    // handleSearchQueryChange(e)
+    // if (searchQuery === '' || searchQuery == null) {
+    //   alert("Нужно ввести ключевое слово")
+    // } else {
       setOnlyShortMovie(!onlyShortMovie);
-      console.log(onlyShortMovie)
-      // handleGetMovies()
-    }
+      handleGetMovies(!onlyShortMovie, searchQuery)
+    // }
+
   }
 
   const handleSearchQueryChange = (e) => {
@@ -52,16 +54,11 @@ function App() {
   const handleSubmitSearch = (e) => {
     e.preventDefault();
 
-    handleSearchQueryChange(e)
-    setSearchQuery(JSON.parse(localSearchQuery));
-    setOnlyShortMovie(JSON.parse(onlyShortMovie));
-    console.log(searchQuery)
-
-    if (searchQuery === '' || searchQuery == null) {
-      alert("Нужно ввести ключевое слово")
-    } else {
-      handleGetMovies()
-    }
+    //handleSearchQueryChange(e)
+    // setSearchQuery(JSON.parse(localSearchQuery));
+    // setOnlyShortMovie(JSON.parse(onlyShortMovie));
+   
+    handleGetMovies(onlyShortMovie, searchQuery)
   }
 
 
@@ -116,40 +113,49 @@ function App() {
       })
   }
 
-  const handleGetMovies = () => {
+  const handleGetMovies = (onlyShortMovie, searchQuery) => {
     console.log('handleGetMovies')
-    setIsLoading(true)
-    localStorage.setItem('search', JSON.stringify(searchQuery));
-    localStorage.setItem('onlyShortMovie', JSON.stringify(onlyShortMovie));
+    console.log(searchQuery)
 
-    moviesApi.getMovies()
-      .then((data) => {
-        setTimeout(() => {
-          setIsLoading(false)
-          setMovies(data)
-        }, 1000)
+  
 
-      })
-      .catch(() => {
-        console.log('Произошла ошибка')
-      })
+
+    if (searchQuery === '' || searchQuery == null) {
+      alert("Нужно ввести ключевое слово")
+    } else {
      
-        setFilteredMovie(movies.filter(function (movie) {
-          return (onlyShortMovie ?
-            (movie.duration < 40 &&
-              (((movie.nameRU?.toLowerCase()).includes(searchQuery?.toLowerCase())) ||
-                ((movie.nameEN?.toLowerCase()).includes(searchQuery?.toLowerCase())))
-            )
+      setIsLoading(true)
+      moviesApi.getMovies()
+        .then((data) => {
+          setTimeout(() => {
+            setIsLoading(false)
+            setMovies(data)
+          }, 1000)
 
-            :
+        })
+        .catch(() => {
+          console.log('Произошла ошибка')
+        })
+      setFilteredMovie(movies.filter(function (movie) {
+        return (onlyShortMovie ?
+          (movie.duration < 40 &&
             (((movie.nameRU?.toLowerCase()).includes(searchQuery?.toLowerCase())) ||
               ((movie.nameEN?.toLowerCase()).includes(searchQuery?.toLowerCase())))
           )
-        })
 
+          :
+          (((movie.nameRU?.toLowerCase()).includes(searchQuery?.toLowerCase())) ||
+            ((movie.nameEN?.toLowerCase()).includes(searchQuery?.toLowerCase())))
         )
+      })
 
-        localStorage.setItem('list', JSON.stringify(filteredMovie));
+      )
+    }
+
+    localStorage.setItem('search', JSON.stringify(searchQuery));
+    localStorage.setItem('onlyShortMovie', JSON.stringify(onlyShortMovie));
+    localStorage.setItem('list', JSON.stringify(filteredMovie));
+
 
     // 
     // console.log(filteredMovie)
@@ -231,8 +237,10 @@ function App() {
     localStorage.removeItem('list');
     localStorage.removeItem('listSavedMovies');
     setFilteredMovie([])
+    setSearchQuery('')
+    setOnlyShortMovie(false)
     localStorage.clear()
-    
+
     navigate('/signin');
   }
 
@@ -260,69 +268,65 @@ function App() {
         .catch(() => {
           console.log('Произошла ошибка')
         })
-        
-        // console.log(localFilteredMovies)
-        if (localFilteredMovies) {
-          console.log(JSON.parse(localFilteredMovies))  
-          setFilteredMovie(JSON.parse(localFilteredMovies));
-        }
-        console.log(filteredMovie)
-        console.log("useEffect2")
-
-
-
+      console.log(filteredMovie)
     }
   }, [loggedIn])
 
-  useEffect(() => {
-    if (loggedIn) {
-      setSavedMovies(savedMoviesNoFilter.filter((item) => item.owner === currentUser._id));
-      console.log("useEffect3")
-    }
-  }
-    , [loggedIn, savedMoviesNoFilter, currentUser._id])
+  // useEffect(() => {
+  //   if (loggedIn) {
+  //     setSavedMovies(savedMoviesNoFilter.filter((item) => item.owner === currentUser._id));
+  //     console.log("useEffect3")
+  //     console.log(filteredMovie)
+  //   }
+  // }
+  //   , [loggedIn, savedMoviesNoFilter, currentUser._id])
 
-  useEffect(() => {
-    setSearchQuery(JSON.parse(localSearchQuery));
-    setOnlyShortMovie(JSON.parse(localOnlyShortMoviie));
-    // setFilteredMovie(JSON.parse(localFilteredMovies));
-    console.log("useEffect4")
-  }
-    , [localSearchQuery, localOnlyShortMoviie])
-
-
-  useEffect(() => {
-    if (loggedIn) {
-      localStorage.setItem('listSavedMovies', JSON.stringify(savedMovies));
-      console.log("useEffect5")
-    }
-
-  }
-    , [loggedIn, savedMovies])
+  // useEffect(() => {
+  //   setSearchQuery(JSON.parse(localSearchQuery));
+  //   setOnlyShortMovie(JSON.parse(localOnlyShortMoviie));
+  //   // setFilteredMovie(JSON.parse(localFilteredMovies));
+  //   console.log("useEffect4")
+  //   console.log(filteredMovie)
+  // }
+  //   , [localSearchQuery, localOnlyShortMoviie,
+  //     //  localFilteredMovies
+  //     ])
 
 
   // useEffect(() => {
   //   if (loggedIn) {
-  //     if (searchQuery !== '') {
-  //       handleGetMovies()
-  //       console.log("useEffect6")
-  //     }
+  //     localStorage.setItem('listSavedMovies', JSON.stringify(savedMovies));
+  //     console.log("useEffect5")
+  //     console.log(filteredMovie)
   //   }
 
   // }
-  //   , [loggedIn, onlyShortMovie])
+  //   , [loggedIn, savedMovies])
 
 
+  // useEffect(() => {
+  //   if (loggedIn) {
+  //     handleGetMovies(onlyShortMovie,searchQuery)
+  //     localStorage.setItem('list', JSON.stringify(filteredMovie));
+  //     console.log(filteredMovie)
+  //   }
 
+  // }
+  //   , [loggedIn, onlyShortMovie,searchQuery])
 
 
   useEffect(() => {
     if (loggedIn) {
+      console.log("useEffect запись в хранилище")
+      console.log(searchQuery)
       localStorage.setItem('list', JSON.stringify(filteredMovie));
+      localStorage.setItem('onlyShortMovie', JSON.stringify(onlyShortMovie));
+      localStorage.setItem('search', JSON.stringify(searchQuery));
+
     }
 
   }
-    , [loggedIn, filteredMovie])
+    , [loggedIn, filteredMovie, onlyShortMovie, searchQuery])
 
 
 
@@ -343,10 +347,10 @@ function App() {
           <Route path="/profile" element={<ProtectedRouteElement element={Profile} signOut={signOut} setLoggedIn={setLoggedIn} loggedIn={loggedIn} currentUser={currentUser} />} />
           <Route path="/error" element={<ErrorPage />} />
           <Route path="/*" element={<Main loggedIn={loggedIn} />} />
-          {/* {console.log(localSearchQuery.length)} */}
+          {console.log(searchQuery)}
           <Route path="/movies" element={<ProtectedRouteElement
             element={Movies} loggedIn={loggedIn}
-            searchQuery={searchQuery}
+            searchQuery={localSearchQuery ? JSON.parse(localSearchQuery) : ''}
             handleSearchQueryChange={handleSearchQueryChange}
             handleSubmitSearch={handleSubmitSearch}
             handleGetSavedMovies={handleGetSavedMovies}
