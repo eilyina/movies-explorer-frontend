@@ -4,20 +4,31 @@ import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import Header from '../Header/Header';
 import SearchForm from '../SearchForm/SearchForm';
 import Footer from '../Footer/Footer';
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
+import { CurrentUserContext } from '../../contexts/CurrentUserContext';
+import { api } from '../../utils/MainApi';
 
 
 function SavedMovies(props) {
- 
+    // const allSavedMovies = useContext(SavedMoviesContext);
+    const currentUser = useContext(CurrentUserContext);
     const [searchQuery, setSearchQuery] = useState('');
-    const [filteredSavedMovies, setFilteredSavedMovies] = useState(props.movies);
+    const [allSavedMovies, setAllSavedMovies] = useState([]);
+    const [filteredSavedMovies, setFilteredSavedMovies] = useState([]);
     const [isShort, setIsShort] = useState(false);
-    // console.log(props.isShort)
+    const [isLoading, setIsLoading] = useState(false);
+    console.log(props.savedMovies)
+    console.log(allSavedMovies)
 
     const handleOnlyShortMovieForSaved = (e) => {
-        // e.preventDefault();
-        setIsShort(!isShort);
-        console.log(isShort)
+        e.preventDefault();
+        if (searchQuery === '') {
+            alert("Нужно ввести ключевое слово")
+        } else {
+            setIsShort(!isShort);
+            setFilteredSavedMovies(handleFilterSavedMovies(searchQuery, allSavedMovies, !isShort))
+            console.log(isShort)
+        }
     }
 
     const handleSearchQueryChange = (e) => {
@@ -28,55 +39,86 @@ function SavedMovies(props) {
 
     const handleSubmitSearch = (e) => {
         e.preventDefault();
-        // handleSearchQueryChange(e)
 
         if (searchQuery === '') {
+            console.log("if")
             alert("Нужно ввести ключевое слово")
         } else {
-            setFilteredSavedMovies(handleFilterSavedMovies(searchQuery, filteredSavedMovies, isShort))
-            // console.log(searchQuery)
-            // console.log(filteredSavedMovies)
-            // console.log(isShort)
+
+            console.log(searchQuery)
+            console.log(filteredSavedMovies)
+            console.log(isShort)
+            console.log("else")
+            setFilteredSavedMovies(handleFilterSavedMovies(searchQuery, allSavedMovies, isShort))
         }
+
+
     }
+    const handleDeleteMovie = (movie) => {
+        const savedMovieId = filteredSavedMovies.find((savedMovie) => {
+          return movie.movieId === savedMovie.movieId;
+        });
+        // console.log(savedMovieId)
+        api.deleteMovie(savedMovieId._id)
+          .then((delMovie) => {
+            const updatedMovies = filteredSavedMovies.filter(savedMovie => {
+              return savedMovie._id !== delMovie.movie._id && savedMovie.owner === currentUser._id
+            });
+            setFilteredSavedMovies(updatedMovies);
+            // setFilteredSavedMovies
+    
+          }
+    
+          )
+          .catch(() => console.log('Произошла ошибка'))
+      }
 
     const handleFilterSavedMovies = (searchQuery, savedMovies, isShort) => {
 
-        return savedMovies.filter(function (movie) {
+        return savedMovies.filter(function (item) {
             return (isShort ?
-                (movie.duration < 40 &&
-                    (((movie.nameRU?.toLowerCase()).includes(searchQuery?.toLowerCase())) ||
-                        ((movie.nameEN?.toLowerCase()).includes(searchQuery?.toLowerCase())))
+                (item.duration < 40 &&
+                    (((item.nameRU?.toLowerCase()).includes(searchQuery?.toLowerCase())) ||
+                        ((item.nameEN?.toLowerCase()).includes(searchQuery?.toLowerCase())))
                 )
 
                 :
-                (((movie.nameRU?.toLowerCase()).includes(searchQuery?.toLowerCase())) ||
-                    ((movie.nameEN?.toLowerCase()).includes(searchQuery?.toLowerCase())))
+                (((item.nameRU?.toLowerCase()).includes(searchQuery?.toLowerCase())) ||
+                    ((item.nameEN?.toLowerCase()).includes(searchQuery?.toLowerCase())))
             )
         })
 
     }
-   
-
-    useEffect(() => {
-        setFilteredSavedMovies(props.savedMovies)
 
 
-    }, [props.savedMovies]);
+           useEffect(() => {
+            setIsLoading(true)
+            api.getSavedMovies()
+              .then((data) => {
+                setTimeout(() => {
+                  setIsLoading(false)
+                  setAllSavedMovies(data.filter(item => {
+                    return item.owner === currentUser._id
+                  }))
+                  setFilteredSavedMovies(data.filter(item => {
+                    return item.owner === currentUser._id
+                  }))
+        
+                }, 1000)
+        
+              })
+              .catch(() => {
+                console.log('Произошла ошибка')
+              })
 
-    useEffect(() => {
-        if (searchQuery !== '') {
-            setFilteredSavedMovies(handleFilterSavedMovies(searchQuery, filteredSavedMovies, isShort))
-        }
 
+        }, []);
 
-
-    }, [isShort, searchQuery]);
 
     return (
 
         <>
-            {/* { console.log(props.movies)} */}
+            {console.log(filteredSavedMovies)}
             <Header isLogged={props.loggedIn}> </Header>
             <main className='movie-content'>
                 <SearchForm
@@ -84,14 +126,15 @@ function SavedMovies(props) {
                     handleSubmitSearch={handleSubmitSearch}
                     searchQuery={searchQuery}
                     isShort={handleOnlyShortMovieForSaved}
+                    isShortValue={isShort}
                 ></SearchForm>
                 {/* { 
                 console.log(filteredSavedMovies)} */}
                 <MoviesCardList
 
 
-                    movies={filteredSavedMovies}
-                    handleDeleteMovie={props.handleDeleteMovie}
+                    savedMovies={filteredSavedMovies}
+                    handleDeleteMovie={handleDeleteMovie}
                 ></MoviesCardList>
             </main>
             <Footer></Footer>

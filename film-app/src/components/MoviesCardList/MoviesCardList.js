@@ -11,8 +11,9 @@ function MoviesCardList(props) {
     const [width, setWidth] = useState(window.innerWidth);
     const [step, getStep] = useState(width < 480 ? 2 : 1);
     const [numberOfMovies, setNumbersOfMovies] = useState(width < 480 ? 5 : 4);
+    const [movies, setMovies] = useState(props.movies ? props.movies : []);
 
-
+// console.log(props)
     function handleShowMoreClick() {
         setNumbersOfMovies(numberOfMovies + step)
     }
@@ -39,7 +40,7 @@ function MoviesCardList(props) {
 
 
     useEffect(() => {
-        if (props.movies.length > numberOfMovies) {
+        if (movies.length > numberOfMovies) {
 
             setShowMore(false)
 
@@ -47,23 +48,24 @@ function MoviesCardList(props) {
             setShowMore(true)
         }
 
-    }, [numberOfMovies, props.movies.length]);
+    }, [numberOfMovies, movies.length]);
 
 
 
-
+    // console.log(props)
     return (
         <>
-    {console.log(props.movies)}
+    {/* {console.log(props.savedMovies)} */}
             <section className="card-list">
                 {/* <h2>Width: {width}</h2> */}
-               { props.movies === null ? <p></p> :
-                
-                
-                props.movies.length === 0 ? <p>Ничего не найдено</p> :
+               { 
+               
+               
+                // movies === null ? <p></p> :
+                // movies.length === 0 ? <p>Ничего не найдено</p> :
                     (location.pathname === '/movies') ?
                         <>
-                            {props.movies.slice(0, numberOfMovies).map((movie) =>
+                            {movies.slice(0, numberOfMovies).map((movie) =>
 
 
                             (
@@ -99,7 +101,7 @@ function MoviesCardList(props) {
                         </>
                         :
                         <>
-                            {props.movies.map((movie) =>
+                            {props.savedMovies.map((movie) =>
 
 
                             (
