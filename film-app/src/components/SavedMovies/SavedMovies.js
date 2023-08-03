@@ -21,7 +21,6 @@ function SavedMovies(props) {
     // console.log(allSavedMovies)
 
     const handleOnlyShortMovieForSaved = (e) => {
-        e.preventDefault();
         if (searchQuery === '') {
             alert("Нужно ввести ключевое слово")
         } else {
@@ -129,6 +128,8 @@ function SavedMovies(props) {
                     isShort={handleOnlyShortMovieForSaved}
                     isShortValue={isShort}
                 ></SearchForm>
+
+                
                 {/* { 
                 console.log(filteredSavedMovies)} */}
                 <MoviesCardList
