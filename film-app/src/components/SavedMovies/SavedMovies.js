@@ -17,16 +17,17 @@ function SavedMovies(props) {
     const [filteredSavedMovies, setFilteredSavedMovies] = useState([]);
     const [isShort, setIsShort] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-    console.log(props.savedMovies)
-    console.log(allSavedMovies)
+    // console.log(props.savedMovies)
+    // console.log(allSavedMovies)
 
     const handleOnlyShortMovieForSaved = (e) => {
         e.preventDefault();
         if (searchQuery === '') {
             alert("Нужно ввести ключевое слово")
         } else {
+            console.log(isShort)
             setIsShort(!isShort);
-            setFilteredSavedMovies(handleFilterSavedMovies(searchQuery, allSavedMovies, !isShort))
+            handleFilterSavedMovies(searchQuery, allSavedMovies, !isShort)
             console.log(isShort)
         }
     }
@@ -49,7 +50,7 @@ function SavedMovies(props) {
             console.log(filteredSavedMovies)
             console.log(isShort)
             console.log("else")
-            setFilteredSavedMovies(handleFilterSavedMovies(searchQuery, allSavedMovies, isShort))
+           handleFilterSavedMovies(searchQuery, allSavedMovies, isShort)
         }
 
 
@@ -75,7 +76,7 @@ function SavedMovies(props) {
 
     const handleFilterSavedMovies = (searchQuery, savedMovies, isShort) => {
 
-        return savedMovies.filter(function (item) {
+        setFilteredSavedMovies(savedMovies.filter(function (item) {
             return (isShort ?
                 (item.duration < 40 &&
                     (((item.nameRU?.toLowerCase()).includes(searchQuery?.toLowerCase())) ||
@@ -86,7 +87,7 @@ function SavedMovies(props) {
                 (((item.nameRU?.toLowerCase()).includes(searchQuery?.toLowerCase())) ||
                     ((item.nameEN?.toLowerCase()).includes(searchQuery?.toLowerCase())))
             )
-        })
+        }))
 
     }
 
@@ -118,7 +119,7 @@ function SavedMovies(props) {
     return (
 
         <>
-            {console.log(filteredSavedMovies)}
+            {/* {console.log(filteredSavedMovies)} */}
             <Header isLogged={props.loggedIn}> </Header>
             <main className='movie-content'>
                 <SearchForm

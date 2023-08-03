@@ -2,7 +2,7 @@ import './App.css';
 import Main from '../Main/Main';
 import Register from '../Register/Register';
 import Login from '../Login/Login';
-import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
+import { Routes, Route, useNavigate, useLocation, Navigate} from 'react-router-dom';
 import ErrorPage from '../ErrorPage/ErrorPage';
 import Movies from '../Movies/Movies'
 import SavedMovies from '../SavedMovies/SavedMovies'
@@ -198,23 +198,23 @@ function App() {
     handleAddMovie(movie, isLiked);
   }
 
-  const handleDeleteMovie = (movie) => {
-    const savedMovieId = savedMovies.find((savedMovie) => {
-      return movie.movieId === savedMovie.movieId;
-    });
-    // console.log(savedMovieId)
-    api.deleteMovie(savedMovieId._id)
-      .then((delMovie) => {
-        const updatedMovies = savedMovies.filter(savedMovie => {
-          return savedMovie._id !== delMovie.movie._id && savedMovie.owner === currentUser._id
-        });
-        setSavedMovies(updatedMovies);
+  // const handleDeleteMovie = (movie) => {
+  //   const savedMovieId = savedMovies.find((savedMovie) => {
+  //     return movie.movieId === savedMovie.movieId;
+  //   });
+  //   // console.log(savedMovieId)
+  //   api.deleteMovie(savedMovieId._id)
+  //     .then((delMovie) => {
+  //       const updatedMovies = savedMovies.filter(savedMovie => {
+  //         return savedMovie._id !== delMovie.movie._id && savedMovie.owner === currentUser._id
+  //       });
+  //       setSavedMovies(updatedMovies);
 
-      }
+  //     }
 
-      )
-      .catch(() => console.log('Произошла ошибка'))
-  }
+  //     )
+  //     .catch(() => console.log('Произошла ошибка'))
+  // }
 
   function signOut() {
     setLoggedIn(false);
@@ -308,19 +308,18 @@ function App() {
     <CurrentUserContext.Provider value={currentUser}>
       <>
         <Routes>
-          <Route path="/signup" element={<Register handleRegister={handleRegister} registrationStatus={registrationStatus} />} />
-          <Route path="/signin" element={<Login handleLogin={handleLogin} registrationStatus={registrationStatus} />} />
+          <Route path="/signup" element={loggedIn ? <Navigate to = '/'/> :<Register handleRegister={handleRegister} registrationStatus={registrationStatus} />} />
+          <Route path="/signin" element={loggedIn ? <Navigate to = '/'/> :<Login handleLogin={handleLogin} registrationStatus={registrationStatus} />} />
           {console.log(savedMovies)}
           <Route path="/saved-movies" element={<ProtectedRouteElement element={SavedMovies}
             loggedIn={loggedIn}
             // movies={savedMovies}
-            handleDeleteMovie={handleDeleteMovie}
-            savedMovies={savedMovies}
-            isShort={handleOnlyShortMovie}
+            // handleDeleteMovie={handleDeleteMovie}
+            // savedMovies={savedMovies}
+            // isShort={handleOnlyShortMovie}
           />} />
           <Route path="/profile" element={<ProtectedRouteElement element={Profile} signOut={signOut} setLoggedIn={setLoggedIn} loggedIn={loggedIn} currentUser={currentUser} />} />
-          <Route path="/error" element={<ErrorPage />} />
-          <Route path="/*" element={<Main loggedIn={loggedIn} />} />
+          <Route path="/" element={<Main loggedIn={loggedIn} />} />
           {/* {console.log(searchQuery)} */}
           <Route path="/movies" element={<ProtectedRouteElement
             element={Movies} loggedIn={loggedIn}
@@ -337,6 +336,7 @@ function App() {
             isShortValue={onlyShortMovie}
 
           />} />
+          <Route path="*" element={<ErrorPage loggedIn={loggedIn}/>}></Route>
 
         </Routes>
       </>
