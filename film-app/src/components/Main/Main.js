@@ -5,11 +5,14 @@ import Techs from '../Techs/Techs';
 import AboutMe from '../AboutMe/AboutMe';
 import Footer from '../Footer/Footer';
 import'./Main.css'
+import Preloader from '../Preloader/Preloader';
 
 function Main(props) {
   return (
     <>
-      <Header isLogged={props.loggedIn}></Header>
+    {(props.isLoading) ? <Preloader></Preloader> :
+     <>
+     <Header isLogged={props.loggedIn}></Header>
       <main className="main">
       <Promo></Promo>
       <AboutProject></AboutProject>
@@ -17,7 +20,8 @@ function Main(props) {
       <AboutMe></AboutMe>
       </main>
       <Footer></Footer>
-
+  
+     </> }
     </>
 
 

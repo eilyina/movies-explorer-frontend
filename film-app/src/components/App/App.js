@@ -86,17 +86,19 @@ function App() {
 
   const tokenCheck = () => {
     const jwt = localStorage.getItem('jwt')
-    const lastPage = localStorage.getItem('lastPage')
+    // const lastPage = localStorage.getItem('lastPage')
     if (!jwt) {
       return
     }
+    setIsLoading(true)
     api.checkToken()
       .then(res => {
         if (res) {
           setLoggedIn(true)
           // setUserData(res)
           setCurrentUser(res)
-          navigate(lastPage)
+          // navigate(lastPage)
+          setIsLoading(false)
 
         }
       })

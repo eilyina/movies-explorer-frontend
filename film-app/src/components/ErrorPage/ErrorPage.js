@@ -6,10 +6,7 @@ function ErrorPage(props) {
     const navigate = useNavigate();
 
     function handleBackButton() {
-        if (props.loggedIn) { navigate(-3) }
-        else {
-            navigate(-1)
-        }
+        navigate(-1)
     }
 
     return (
