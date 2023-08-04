@@ -39,7 +39,6 @@ export function useFormWithValidation() {
 
     if (name === 'email') {
       if (target.validity.patternMismatch) {
-        console.log(target.validity)
         setErrors({ ...errors, [name]: "Е-mail должен соответствовать шаблону электронной почты" });
       }
     }

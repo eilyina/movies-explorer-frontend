@@ -4,13 +4,21 @@ import MoviesCard from '../MoviesCard/MoviesCard';
 import Preloader from '../Preloader/Preloader';
 import { useLocation } from 'react-router-dom';
 import { useState, useEffect, useCallback } from "react";
+import {
+
+    USER_WINDOW_WIDTH_480,
+    START_NUMBERS_OF_MOVIES_MOBILE,
+    START_NUMBERS_OF_MOVIES,
+    MORE_BUTTON_NUMBERS_OF_MOVIES_MOBILE,
+    MORE_BUTTON_NUMBERS_OF_MOVIES
+} from '../../utils/constants'
 
 function MoviesCardList(props) {
     const location = useLocation();
     const [showMore, setShowMore] = useState(true);
     const [width, setWidth] = useState(window.innerWidth);
-    const [step, getStep] = useState(width < 480 ? 2 : 1);
-    const [numberOfMovies, setNumbersOfMovies] = useState(width < 480 ? 5 : 4);
+    const [step, getStep] = useState(width < USER_WINDOW_WIDTH_480 ? MORE_BUTTON_NUMBERS_OF_MOVIES_MOBILE : MORE_BUTTON_NUMBERS_OF_MOVIES);
+    const [numberOfMovies, setNumbersOfMovies] = useState(width < USER_WINDOW_WIDTH_480 ? START_NUMBERS_OF_MOVIES_MOBILE : START_NUMBERS_OF_MOVIES);
     const [movies, setMovies] = useState(props.movies ? props.movies : []);
 
 // console.log(props)
@@ -32,8 +40,8 @@ function MoviesCardList(props) {
     }, [])
 
     useEffect(() => {
-        setNumbersOfMovies(width < 480 ? 5 : 4)
-        getStep(width < 480 ? 2 : 1)
+        setNumbersOfMovies(width < USER_WINDOW_WIDTH_480 ? START_NUMBERS_OF_MOVIES_MOBILE : START_NUMBERS_OF_MOVIES)
+        getStep(width < USER_WINDOW_WIDTH_480 ? MORE_BUTTON_NUMBERS_OF_MOVIES_MOBILE : MORE_BUTTON_NUMBERS_OF_MOVIES)
 
 
     }, [width])

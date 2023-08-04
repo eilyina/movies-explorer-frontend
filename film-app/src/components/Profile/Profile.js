@@ -6,7 +6,10 @@ import React, { useState, useEffect, useContext } from "react";
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import { api } from '../../utils/MainApi';
 import { useFormWithValidation } from '../Hooks/useForm';
-import { setLoggedIn } from '../App/App'
+import {CONFLICT_ERROR_CODE,
+    CONFLICT_ERROR_MESSAGE,
+    SUCCESS_UPDATE_USER_MESSAGE,
+    SERVER_ERROR_MESSAGE} from '../../utils/constants'
 
 function Profile(props) {
 
@@ -23,21 +26,25 @@ function Profile(props) {
     }, [currentUser]);
 
     const handleUpdateUser = (currentUser) => {
+        setErrorMessage('')
         api.updateUserInfo(currentUser)
             .then((userData) => {
                 // setValues({ name: currentUser.name ?? '', email: currentUser.email ?? '' });
-
                 handleSaveProfile()
-
-                console.log(currentUser)
-                setErrorMessage("Данные успешно обновлены")
+                setErrorMessage(SUCCESS_UPDATE_USER_MESSAGE)
 
             })
-            .catch(() => {
+            .catch((err) => {
                 handleEditProfile();
-                setErrorMessage("При выполнении запроса произошла ошибка. Попробуйте еще раз или обратитесь к администратору")
-
-                // console.log('Произошла ошибка')
+                if( err === CONFLICT_ERROR_CODE)
+                {
+                    setErrorMessage(CONFLICT_ERROR_MESSAGE)
+                }
+                else {
+                    setErrorMessage(SERVER_ERROR_MESSAGE)
+                }
+            
+                 console.log(err)
             })
     }
 
@@ -48,6 +55,7 @@ function Profile(props) {
     }
 
     function handleEditProfile() {
+        setErrorMessage('')
         setIsEditProfile(true);
     }
 
@@ -92,15 +100,17 @@ function Profile(props) {
                             errors={errors.email}
                             onChange={handleChange}>
                         </Input>
-
+                        <span className='profile__error'>{errorMessage}</span>
                         {
                             isEditProfile ?
-                                (< button type="submit" className="profile__save-button"
+                                ( 
+                                < button type="submit" className="profile__save-button"
+                                
                                     disabled={!isValid || (currentUser.name === values.name && currentUser.email === values.email)}>Сохранить</button>)
                                 :
                                 (<>
 
-                                    <span className='profile__error'>{errorMessage}</span>
+                                    {/* <span className='profile__error'>{errorMessage}</span> */}
                                     <button type="button" className="profile__edit-button" onClick={handleEditProfile}>Редактировать</button>
                                     <Link to="/" className="profile__logout-link" onClick={props.signOut}>Выйти из аккаунта</Link>
                                 </>)

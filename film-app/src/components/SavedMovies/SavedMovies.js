@@ -7,6 +7,7 @@ import Footer from '../Footer/Footer';
 import { useEffect, useState, useContext } from "react";
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import { api } from '../../utils/MainApi';
+import {DURATION_SHORT_MOVIES} from '../../utils/constants'
 
 
 function SavedMovies(props) {
@@ -41,14 +42,8 @@ function SavedMovies(props) {
         e.preventDefault();
 
         if (searchQuery === '') {
-            console.log("if")
             alert("Нужно ввести ключевое слово")
         } else {
-
-            console.log(searchQuery)
-            console.log(filteredSavedMovies)
-            console.log(isShort)
-            console.log("else")
            handleFilterSavedMovies(searchQuery, allSavedMovies, isShort)
         }
 
@@ -65,7 +60,6 @@ function SavedMovies(props) {
               return savedMovie._id !== delMovie.movie._id && savedMovie.owner === currentUser._id
             });
             setFilteredSavedMovies(updatedMovies);
-            // setFilteredSavedMovies
     
           }
     
@@ -77,7 +71,7 @@ function SavedMovies(props) {
 
         setFilteredSavedMovies(savedMovies.filter(function (item) {
             return (isShort ?
-                (item.duration < 40 &&
+                (item.duration < DURATION_SHORT_MOVIES &&
                     (((item.nameRU?.toLowerCase()).includes(searchQuery?.toLowerCase())) ||
                         ((item.nameEN?.toLowerCase()).includes(searchQuery?.toLowerCase())))
                 )

@@ -10,32 +10,17 @@ import React, { useState, useEffect } from "react";
 
 function Movies(props) {
 
-    // const searchQuery = JSON.parse(localStorage.getItem('search'));
-    // console.log(props)
-    // console.log(props.movies)
-
-    // useEffect(() => {
-       
-    //     console.log("useEffectMovies")
-    
-    //   }, [props.movies]);
-
     return (
-        <>
-            <Header isLogged={props.loggedIn}> </Header>
+        <>{(props.isLoading) ? <Preloader></Preloader> :
+           <> <Header isLogged={props.loggedIn}> </Header>
 
             <main className='movie-content'>
                 <SearchForm
-                    // handleGetMovies={props.handleGetMovies}
                     handleSearchQueryChange={props.handleSearchQueryChange}
                     handleSubmitSearch={props.handleSubmitSearch}
                     searchQuery={props.searchQuery}
                     isShort={props.isShort}
                     isShortValue={props.isShortValue}
-                //    {(localStorage.getItem('search')?.length > 0 && localStorage.getItem('list')?.length >0) ?
-                //    searchQuery :
-                //     props.searchQuery}
-
                 ></SearchForm>
                
                 {((props.movies.length === 0) && props.searchQuery) ?
@@ -54,8 +39,8 @@ function Movies(props) {
 
             </main>
             <Footer></Footer>
-
-        </>
+            </>
+        }</>
     );
 }
 
