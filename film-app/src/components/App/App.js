@@ -98,11 +98,13 @@ function App() {
   }
 
   const tokenCheck = () => {
+    // setTokenResult(false)
     const jwt = localStorage.getItem('jwt')
     if (!jwt) {
+      setTokenResult(true)
       return
     }
-    setIsLoading(true)
+   
     api.checkToken()
       .then(res => {
         if (res) {
@@ -212,6 +214,7 @@ function App() {
 
   function signOut() {
     setLoggedIn(false);
+    // setTokenResult(false)
     localStorage.removeItem('jwt');
     localStorage.removeItem('search');
     localStorage.removeItem('list');
@@ -266,7 +269,7 @@ function App() {
     , [loggedIn, filteredMovie, onlyShortMovie, searchQuery])
 
   return (
-    token &&
+    token ?
     <CurrentUserContext.Provider value={currentUser}>
       <Routes>
         <Route path="/signup" element={loggedIn ?
@@ -304,6 +307,7 @@ function App() {
 
       </Routes>
     </CurrentUserContext.Provider>
+    : "Загрузка ..."
 
 
   );
