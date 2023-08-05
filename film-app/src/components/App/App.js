@@ -2,7 +2,7 @@ import './App.css';
 import Main from '../Main/Main';
 import Register from '../Register/Register';
 import Login from '../Login/Login';
-import { Routes, Route, useNavigate, Navigate} from 'react-router-dom';
+import { Routes, Route, useNavigate, Navigate } from 'react-router-dom';
 import ErrorPage from '../ErrorPage/ErrorPage';
 import Movies from '../Movies/Movies'
 import SavedMovies from '../SavedMovies/SavedMovies'
@@ -12,8 +12,9 @@ import { api } from '../../utils/MainApi';
 import { useEffect, useState } from "react";
 import ProtectedRouteElement from '../ProtectedRouteElement/ProtectedRoute';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
-import Preloader from '../Preloader/Preloader';
-import {CONFLICT_ERROR_CODE,
+
+import {
+  CONFLICT_ERROR_CODE,
   CONFLICT_ERROR_MESSAGE,
   UNAUTHORIZED_ERROR_CODE,
   UNAUTHORIZED_ERROR_MESSAGE,
@@ -35,8 +36,8 @@ function App() {
   const localSearchQuery = localStorage.getItem('search')
   const [searchQuery, setSearchQuery] = useState(localSearchQuery ? JSON.parse(localSearchQuery) : '');
   const localOnlyShortMoviie = localStorage.getItem('onlyShortMovie')
-  const [onlyShortMovie, setOnlyShortMovie] = useState(localOnlyShortMoviie ? JSON.parse(localOnlyShortMoviie) : false); 
-  // const [resaltSearch, setResaltSearch] = useState('');
+  const [onlyShortMovie, setOnlyShortMovie] = useState(localOnlyShortMoviie ? JSON.parse(localOnlyShortMoviie) : false);
+  const [token, setTokenResult] = useState(false);
 
   const handleOnlyShortMovie = (e) => {
     if (searchQuery === '' || searchQuery == null) {
@@ -64,8 +65,7 @@ function App() {
         handleLogin({ email, password })
       })
       .catch((err) => {
-        if( err === CONFLICT_ERROR_CODE)
-        {
+        if (err === CONFLICT_ERROR_CODE) {
           setRegistrationStatus(CONFLICT_ERROR_MESSAGE)
         }
         else {
@@ -87,8 +87,7 @@ function App() {
         }
       })
       .catch((err) => {
-        if( err === UNAUTHORIZED_ERROR_CODE)
-        {
+        if (err === UNAUTHORIZED_ERROR_CODE) {
           setRegistrationStatus(UNAUTHORIZED_ERROR_MESSAGE)
         }
         else {
@@ -99,10 +98,7 @@ function App() {
   }
 
   const tokenCheck = () => {
-    console.log("tokenCheck")
-    console.log(loggedIn)
     const jwt = localStorage.getItem('jwt')
-    // const lastPage = localStorage.getItem('lastPage')
     if (!jwt) {
       return
     }
@@ -113,19 +109,21 @@ function App() {
           setIsLoading(false)
           setLoggedIn(true)
           setCurrentUser(res)
-          // navigate(lastPage)
-          
-
+          setTokenResult(true)
+        }
+        else {
+          setTokenResult(true)
         }
       })
+
       .catch(() => {
         console.log('Произошла ошибка')
+        setTokenResult(true)
       })
-      
+
   }
 
   const handleGetMovies = (onlyShortMovie, searchQuery) => {
-    // setResaltSearch('')
     if (searchQuery === '' || searchQuery == null) {
       alert("Нужно ввести ключевое слово")
     } else {
@@ -156,16 +154,10 @@ function App() {
       })
 
       )
-
-      // if(filteredMovie.length === 0) {
-      //   setResaltSearch('Ничего не найдено')
-      // }
       localStorage.setItem('search', JSON.stringify(searchQuery));
       localStorage.setItem('onlyShortMovie', JSON.stringify(onlyShortMovie));
       localStorage.setItem('list', JSON.stringify(filteredMovie));
     }
-
-
   }
 
   const handleGetSavedMovies = () => {
@@ -252,7 +244,7 @@ function App() {
       ])
 
         .then(([{ name, email, _id }, moviesData
-        , savedMoviesData
+          , savedMoviesData
         ]) => {
           setCurrentUser({ name, email, _id });
           setMovies(moviesData)
@@ -271,41 +263,46 @@ function App() {
       localStorage.setItem('search', JSON.stringify(searchQuery));
     }
   }
-    , [loggedIn,filteredMovie, onlyShortMovie, searchQuery])
+    , [loggedIn, filteredMovie, onlyShortMovie, searchQuery])
 
   return (
-  
+    token &&
     <CurrentUserContext.Provider value={currentUser}>
-     
-        <Routes>
-          <Route path="/signup" element={loggedIn ? <Navigate to = '/'/> :<Register handleRegister={handleRegister} registrationStatus={registrationStatus} />} />
-          <Route path="/signin" element={loggedIn ? <Navigate to = '/'/> :<Login handleLogin={handleLogin} registrationStatus={registrationStatus} />} />
-          {console.log(savedMovies)}
-          <Route path="/saved-movies" element={<ProtectedRouteElement element={SavedMovies}
-            loggedIn={loggedIn}
-          />} />
-          <Route path="/profile" element={<ProtectedRouteElement element={Profile} signOut={signOut} setLoggedIn={setLoggedIn} loggedIn={loggedIn} currentUser={currentUser} />} />
-          <Route path="/" element={<Main loggedIn={loggedIn} />} />
-          {/* {console.log(searchQuery)} */}
-          <Route path="/movies" element={<ProtectedRouteElement
-            element={Movies} loggedIn={loggedIn}
-            searchQuery={searchQuery}
-            handleSearchQueryChange={handleSearchQueryChange}
-            handleSubmitSearch={handleSubmitSearch}
-            handleGetSavedMovies={handleGetSavedMovies}
-            isLoading={isLoading}
-            movies={filteredMovie ? filteredMovie : []}
-            handleLikeClick={handleLikeClick}
-            savedMovies={savedMovies}
-            currentUser={currentUser}
-            isShort={handleOnlyShortMovie}
-            isShortValue={onlyShortMovie}
-            
+      <Routes>
+        <Route path="/signup" element={loggedIn ?
+          <Navigate to='/' /> :
+          <Register handleRegister={handleRegister} registrationStatus={registrationStatus} />} />
+        <Route path="/signin" element={loggedIn ?
+          <Navigate to='/' /> :
+          <Login handleLogin={handleLogin} registrationStatus={registrationStatus} />} />
+        {console.log(savedMovies)}
+        <Route path="/saved-movies" element={<ProtectedRouteElement element={SavedMovies}
+          loggedIn={loggedIn}
+        />} />
+        <Route path="/profile" element={<ProtectedRouteElement element={Profile}
+          signOut={signOut}
+          setLoggedIn={setLoggedIn}
+          loggedIn={loggedIn}
+          currentUser={currentUser} />} />
+        <Route path="/" element={<Main loggedIn={loggedIn} />} />
+        {/* {console.log(searchQuery)} */}
+        <Route path="/movies" element={<ProtectedRouteElement
+          element={Movies} loggedIn={loggedIn}
+          searchQuery={searchQuery}
+          handleSearchQueryChange={handleSearchQueryChange}
+          handleSubmitSearch={handleSubmitSearch}
+          handleGetSavedMovies={handleGetSavedMovies}
+          isLoading={isLoading}
+          movies={filteredMovie ? filteredMovie : []}
+          handleLikeClick={handleLikeClick}
+          savedMovies={savedMovies}
+          currentUser={currentUser}
+          isShort={handleOnlyShortMovie}
+          isShortValue={onlyShortMovie}
+        />} />
+        <Route path="*" element={<ErrorPage loggedIn={loggedIn} />}></Route>
 
-          />} />
-          <Route path="*" element={<ErrorPage loggedIn={loggedIn}/>}></Route>
-
-        </Routes>
+      </Routes>
     </CurrentUserContext.Provider>
 
 

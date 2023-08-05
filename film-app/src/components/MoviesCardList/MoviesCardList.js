@@ -1,9 +1,8 @@
 import './MoviesCardList.css'
 import '../MoviesCard/MoviesCard'
 import MoviesCard from '../MoviesCard/MoviesCard';
-import Preloader from '../Preloader/Preloader';
 import { useLocation } from 'react-router-dom';
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import {
 
     USER_WINDOW_WIDTH_480,
@@ -85,7 +84,7 @@ function MoviesCardList(props) {
                                         trailerLink={movie.trailerLink}
                                         country={movie.country}
                                         thumbnail={(location.pathname === '/movies') ? `https://api.nomoreparties.co${movie.image.url}` : `${movie.image}`}
-                                        description={`olol`}
+                                        description={movie.description}
                                         director={movie.director}
                                         // movieId={movie.id}
                                         movieId={(location.pathname === '/movies') ? movie.id : movie.movieId}
@@ -121,7 +120,7 @@ function MoviesCardList(props) {
                                         trailerLink={movie.trailerLink}
                                         country={movie.country}
                                         thumbnail={(location.pathname === '/movies') ? `https://api.nomoreparties.co${movie.image.url}` : `${movie.image}`}
-                                        description={`olol`}
+                                        description={movie.description}
                                         director={movie.director}
                                         // movieId={movie.id}
                                         movieId={(location.pathname === '/movies') ? movie.id : movie.movieId}

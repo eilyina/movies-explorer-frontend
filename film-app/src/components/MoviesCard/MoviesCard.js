@@ -1,5 +1,4 @@
 import './MoviesCard.css'
-import link from '../../images/wordsaboutdesign.png'
 import { useLocation } from 'react-router-dom';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import { useContext, useState, useEffect } from "react";

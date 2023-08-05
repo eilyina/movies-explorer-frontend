@@ -37,9 +37,6 @@ function Movies(props) {
                     isShort={props.isShort}
                     isShortValue={props.isShortValue}
                 ></SearchForm>
-
-
-
                 {(props.isLoading) ? <Preloader></Preloader>
                     :
                     <>
@@ -53,9 +50,6 @@ function Movies(props) {
                         ></MoviesCardList>
                     </>
                     }
-
-                
-
             </main>
             <Footer></Footer>
 
