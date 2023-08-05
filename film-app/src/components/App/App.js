@@ -35,8 +35,8 @@ function App() {
   const localSearchQuery = localStorage.getItem('search')
   const [searchQuery, setSearchQuery] = useState(localSearchQuery ? JSON.parse(localSearchQuery) : '');
   const localOnlyShortMoviie = localStorage.getItem('onlyShortMovie')
-  const [onlyShortMovie, setOnlyShortMovie] = useState(localOnlyShortMoviie ? JSON.parse(localOnlyShortMoviie) : false);
-  
+  const [onlyShortMovie, setOnlyShortMovie] = useState(localOnlyShortMoviie ? JSON.parse(localOnlyShortMoviie) : false); 
+  // const [resaltSearch, setResaltSearch] = useState('');
 
   const handleOnlyShortMovie = (e) => {
     if (searchQuery === '' || searchQuery == null) {
@@ -110,20 +110,22 @@ function App() {
     api.checkToken()
       .then(res => {
         if (res) {
+          setIsLoading(false)
           setLoggedIn(true)
-          // setUserData(res)
           setCurrentUser(res)
           // navigate(lastPage)
-          setIsLoading(false)
+          
 
         }
       })
       .catch(() => {
         console.log('Произошла ошибка')
       })
+      
   }
 
   const handleGetMovies = (onlyShortMovie, searchQuery) => {
+    // setResaltSearch('')
     if (searchQuery === '' || searchQuery == null) {
       alert("Нужно ввести ключевое слово")
     } else {
@@ -154,6 +156,10 @@ function App() {
       })
 
       )
+
+      // if(filteredMovie.length === 0) {
+      //   setResaltSearch('Ничего не найдено')
+      // }
       localStorage.setItem('search', JSON.stringify(searchQuery));
       localStorage.setItem('onlyShortMovie', JSON.stringify(onlyShortMovie));
       localStorage.setItem('list', JSON.stringify(filteredMovie));
@@ -228,7 +234,6 @@ function App() {
 
   useEffect(() => {
     tokenCheck()
-
   }, []);
 
   useEffect(() => {
@@ -265,13 +270,11 @@ function App() {
       localStorage.setItem('onlyShortMovie', JSON.stringify(onlyShortMovie));
       localStorage.setItem('search', JSON.stringify(searchQuery));
     }
-
   }
-    , [loggedIn, filteredMovie, onlyShortMovie, searchQuery])
+    , [loggedIn,filteredMovie, onlyShortMovie, searchQuery])
 
   return (
-    <>
-    {(isLoading) ? <Preloader></Preloader> :
+  
     <CurrentUserContext.Provider value={currentUser}>
      
         <Routes>
@@ -297,13 +300,13 @@ function App() {
             currentUser={currentUser}
             isShort={handleOnlyShortMovie}
             isShortValue={onlyShortMovie}
+            
 
           />} />
           <Route path="*" element={<ErrorPage loggedIn={loggedIn}/>}></Route>
 
         </Routes>
-    </CurrentUserContext.Provider>}
-    </>
+    </CurrentUserContext.Provider>
 
 
   );

@@ -6,14 +6,29 @@ import SearchForm from '../SearchForm/SearchForm';
 import Footer from '../Footer/Footer';
 import Preloader from '../Preloader/Preloader';
 import React, { useState, useEffect } from "react";
+import { NOTHING_WAS_FOUND_MESSAGE } from '../../utils/constants';
 
 
 function Movies(props) {
 
-    return (
-        <>{(props.isLoading) ? <Preloader></Preloader> :
-           <> <Header isLogged={props.loggedIn}> </Header>
+    const [resaltSearch, setResaltSearch] = useState('');
 
+    useEffect(() => {
+        if (props.movies.length === 0) {
+            setResaltSearch(NOTHING_WAS_FOUND_MESSAGE)
+            if (props.searchQuery === '') {
+                setResaltSearch('')
+            }
+
+        } else {
+            setResaltSearch('')
+        }
+    }, [props.movies])
+
+
+    return (
+
+        <> <Header isLogged={props.loggedIn}> </Header>
             <main className='movie-content'>
                 <SearchForm
                     handleSearchQueryChange={props.handleSearchQueryChange}
@@ -22,25 +37,29 @@ function Movies(props) {
                     isShort={props.isShort}
                     isShortValue={props.isShortValue}
                 ></SearchForm>
-               
-                {((props.movies.length === 0) && props.searchQuery) ?
-                    <p></p> :
-                    <>{(props.isLoading) ? <Preloader></Preloader> 
-                    : 
-                    <MoviesCardList 
-                    handleLikeClick={props.handleLikeClick} 
-                    // isSavedMovies={false} 
-                    movies={props.movies}
-                        savedMovies={props.savedMovies}
-                    ></MoviesCardList>}
-                    </>
 
-                }
+
+
+                {(props.isLoading) ? <Preloader></Preloader>
+                    :
+                    <>
+                        <p>{resaltSearch}</p>
+
+                        <MoviesCardList
+                            handleLikeClick={props.handleLikeClick}
+                            // isSavedMovies={false} 
+                            movies={props.movies}
+                            savedMovies={props.savedMovies}
+                        ></MoviesCardList>
+                    </>
+                    }
+
+                
 
             </main>
             <Footer></Footer>
-            </>
-        }</>
+
+        </>
     );
 }
 

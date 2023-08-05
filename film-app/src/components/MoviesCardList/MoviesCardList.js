@@ -63,19 +63,12 @@ function MoviesCardList(props) {
     // console.log(props)
     return (
         <>
-    {/* {console.log(props.savedMovies)} */}
             <section className="card-list">
-                {/* <h2>Width: {width}</h2> */}
                { 
-               
-               
-                // movies === null ? <p></p> :
-                // movies.length === 0 ? <p>Ничего не найдено</p> :
                     (location.pathname === '/movies') ?
-                        <>
-                            {movies.slice(0, numberOfMovies).map((movie) =>
+                        <> {
 
-
+                            movies.slice(0, numberOfMovies).map((movie) =>
                             (
 
 
@@ -105,7 +98,7 @@ function MoviesCardList(props) {
                                     ></MoviesCard>
                                 </ul>
                             ))
-                            }
+                        }
                         </>
                         :
                         <>

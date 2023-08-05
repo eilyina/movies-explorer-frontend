@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import './ErrorPage.css'
 import { useNavigate } from 'react-router-dom'
 

@@ -7,7 +7,8 @@ import Footer from '../Footer/Footer';
 import { useEffect, useState, useContext } from "react";
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import { api } from '../../utils/MainApi';
-import {DURATION_SHORT_MOVIES} from '../../utils/constants'
+import { DURATION_SHORT_MOVIES, NOTHING_WAS_FOUND_MESSAGE } from '../../utils/constants'
+import Preloader from '../Preloader/Preloader';
 
 
 function SavedMovies(props) {
@@ -18,8 +19,20 @@ function SavedMovies(props) {
     const [filteredSavedMovies, setFilteredSavedMovies] = useState([]);
     const [isShort, setIsShort] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-    // console.log(props.savedMovies)
-    // console.log(allSavedMovies)
+    const [resaltSearch, setResaltSearch] = useState('');
+
+
+    useEffect(() => {
+        if (filteredSavedMovies.length === 0) {
+            setResaltSearch(NOTHING_WAS_FOUND_MESSAGE)
+            if (searchQuery === '') {
+                setResaltSearch('')
+            }
+
+        } else {
+            setResaltSearch('')
+        }
+    }, [filteredSavedMovies, searchQuery])
 
     const handleOnlyShortMovieForSaved = (e) => {
         if (searchQuery === '') {
@@ -44,28 +57,28 @@ function SavedMovies(props) {
         if (searchQuery === '') {
             alert("Нужно ввести ключевое слово")
         } else {
-           handleFilterSavedMovies(searchQuery, allSavedMovies, isShort)
+            handleFilterSavedMovies(searchQuery, allSavedMovies, isShort)
         }
 
 
     }
     const handleDeleteMovie = (movie) => {
         const savedMovieId = filteredSavedMovies.find((savedMovie) => {
-          return movie.movieId === savedMovie.movieId;
+            return movie.movieId === savedMovie.movieId;
         });
         // console.log(savedMovieId)
         api.deleteMovie(savedMovieId._id)
-          .then((delMovie) => {
-            const updatedMovies = filteredSavedMovies.filter(savedMovie => {
-              return savedMovie._id !== delMovie.movie._id && savedMovie.owner === currentUser._id
-            });
-            setFilteredSavedMovies(updatedMovies);
-    
-          }
-    
-          )
-          .catch(() => console.log('Произошла ошибка'))
-      }
+            .then((delMovie) => {
+                const updatedMovies = filteredSavedMovies.filter(savedMovie => {
+                    return savedMovie._id !== delMovie.movie._id && savedMovie.owner === currentUser._id
+                });
+                setFilteredSavedMovies(updatedMovies);
+
+            }
+
+            )
+            .catch(() => console.log('Произошла ошибка'))
+    }
 
     const handleFilterSavedMovies = (searchQuery, savedMovies, isShort) => {
 
@@ -85,28 +98,28 @@ function SavedMovies(props) {
     }
 
 
-           useEffect(() => {
-            setIsLoading(true)
-            api.getSavedMovies()
-              .then((data) => {
+    useEffect(() => {
+        setIsLoading(true)
+        api.getSavedMovies()
+            .then((data) => {
                 setTimeout(() => {
-                  setIsLoading(false)
-                  setAllSavedMovies(data.filter(item => {
-                    return item.owner === currentUser._id
-                  }))
-                  setFilteredSavedMovies(data.filter(item => {
-                    return item.owner === currentUser._id
-                  }))
-        
+                    setIsLoading(false)
+                    setAllSavedMovies(data.filter(item => {
+                        return item.owner === currentUser._id
+                    }))
+                    setFilteredSavedMovies(data.filter(item => {
+                        return item.owner === currentUser._id
+                    }))
+
                 }, 1000)
-        
-              })
-              .catch(() => {
+
+            })
+            .catch(() => {
                 console.log('Произошла ошибка')
-              })
+            })
 
 
-        }, []);
+    }, []);
 
 
     return (
@@ -123,15 +136,17 @@ function SavedMovies(props) {
                     isShortValue={isShort}
                 ></SearchForm>
 
-                
-                {/* { 
-                console.log(filteredSavedMovies)} */}
-                <MoviesCardList
+                {(isLoading) ? <Preloader></Preloader>
+                    :
+                    <>
+                        <p>{resaltSearch}</p>
+                        <MoviesCardList
 
 
-                    savedMovies={filteredSavedMovies}
-                    handleDeleteMovie={handleDeleteMovie}
-                ></MoviesCardList>
+                            savedMovies={filteredSavedMovies}
+                            handleDeleteMovie={handleDeleteMovie}
+                        ></MoviesCardList></>}
+
             </main>
             <Footer></Footer>
 
