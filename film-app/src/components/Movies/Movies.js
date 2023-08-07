@@ -26,6 +26,8 @@ function Movies(props) {
     }, [props.movies])
 
 
+console.log(props.savedMovies)
+
     return (
 
         <> <Header isLogged={props.loggedIn}> </Header>

@@ -2,7 +2,8 @@ import './MoviesCardList.css'
 import '../MoviesCard/MoviesCard'
 import MoviesCard from '../MoviesCard/MoviesCard';
 import { useLocation } from 'react-router-dom';
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import {
 
     USER_WINDOW_WIDTH_480,
@@ -19,6 +20,7 @@ function MoviesCardList(props) {
     const [step, getStep] = useState(width < USER_WINDOW_WIDTH_480 ? MORE_BUTTON_NUMBERS_OF_MOVIES_MOBILE : MORE_BUTTON_NUMBERS_OF_MOVIES);
     const [numberOfMovies, setNumbersOfMovies] = useState(width < USER_WINDOW_WIDTH_480 ? START_NUMBERS_OF_MOVIES_MOBILE : START_NUMBERS_OF_MOVIES);
     const [movies, setMovies] = useState(props.movies ? props.movies : []);
+    const user = useContext(CurrentUserContext);
 
 // console.log(props)
     function handleShowMoreClick() {
@@ -66,12 +68,14 @@ function MoviesCardList(props) {
                { 
                     (location.pathname === '/movies') ?
                         <> {
+                    
 
                             movies.slice(0, numberOfMovies).map((movie) =>
                             (
 
 
                                 <ul className="card-list__list" key={(location.pathname === '/movies') ? movie.id : movie.movieId}>
+                                    
 
                                     <MoviesCard
                                         //  key={movie.id}
@@ -89,7 +93,6 @@ function MoviesCardList(props) {
                                         // movieId={movie.id}
                                         movieId={(location.pathname === '/movies') ? movie.id : movie.movieId}
                                         year={movie.year}
-
                                         handleLikeClick={props.handleLikeClick}
                                         handleDeleteMovie={props.handleDeleteMovie}
                                         savedMovies={props.savedMovies}

@@ -2,7 +2,7 @@ import './App.css';
 import Main from '../Main/Main';
 import Register from '../Register/Register';
 import Login from '../Login/Login';
-import { Routes, Route, useNavigate, Navigate } from 'react-router-dom';
+import { Routes, Route, useNavigate, Navigate, useLocation } from 'react-router-dom';
 import ErrorPage from '../ErrorPage/ErrorPage';
 import Movies from '../Movies/Movies'
 import SavedMovies from '../SavedMovies/SavedMovies'
@@ -24,9 +24,11 @@ import {
 } from '../../utils/constants'
 
 function App() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const location = useLocation();
   const [registrationStatus, setRegistrationStatus] = useState('');
   const [currentUser, setCurrentUser] = useState({});
+  // const [user, setUser] = useState({});
   const [loggedIn, setLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [movies, setMovies] = useState([]);
@@ -38,6 +40,7 @@ function App() {
   const localOnlyShortMoviie = localStorage.getItem('onlyShortMovie')
   const [onlyShortMovie, setOnlyShortMovie] = useState(localOnlyShortMoviie ? JSON.parse(localOnlyShortMoviie) : false);
   const [token, setTokenResult] = useState(false);
+  
 
   const handleOnlyShortMovie = (e) => {
     if (searchQuery === '' || searchQuery == null) {
@@ -81,7 +84,6 @@ function App() {
         if (data.token) {
           localStorage.setItem('jwt', data.token)
           setLoggedIn(true)
-          // setUserData({ email, name })
           setCurrentUser({ email, name })
           navigate('/movies')
         }
@@ -159,6 +161,8 @@ function App() {
       localStorage.setItem('search', JSON.stringify(searchQuery));
       localStorage.setItem('onlyShortMovie', JSON.stringify(onlyShortMovie));
       localStorage.setItem('list', JSON.stringify(filteredMovie));
+
+     
     }
   }
 
@@ -168,6 +172,7 @@ function App() {
       .then((data) => {
         setTimeout(() => {
           setIsLoading(false)
+          // console.log(user)
           setSavedMovies(data.filter(item => {
             return item.owner === currentUser._id
           }))
@@ -214,12 +219,12 @@ function App() {
 
   function signOut() {
     setLoggedIn(false);
-    // setTokenResult(false)
     localStorage.removeItem('jwt');
     localStorage.removeItem('search');
     localStorage.removeItem('list');
     localStorage.removeItem('listSavedMovies');
     setFilteredMovie([])
+    setSavedMovies([])
     setSearchQuery('')
     setOnlyShortMovie(false)
     localStorage.clear()
@@ -231,10 +236,7 @@ function App() {
     tokenCheck()
   }, []);
 
-  useEffect(() => {
-    setRegistrationStatus('')
 
-  }, [navigate]);
 
 
   useEffect(() => {
@@ -242,16 +244,17 @@ function App() {
 
       Promise.all([
         api.getUserInfo(),
-        moviesApi.getMovies(),
-        api.getSavedMovies()
+        moviesApi.getMovies()
+        // api.getSavedMovies()
       ])
 
-        .then(([{ name, email, _id }, moviesData
-          , savedMoviesData
+        .then(([userData, moviesData
+          // , savedMoviesData
         ]) => {
-          setCurrentUser({ name, email, _id });
+          setCurrentUser(userData);
           setMovies(moviesData)
-          setSavedMovies(savedMoviesData.filter((item) => item.owner === currentUser._id));
+          // setSavedMovies(savedMoviesData.filter((item) => item.owner === userData._id));
+          // setUser(userData)
         })
         .catch(() => {
           console.log('Произошла ошибка')
@@ -268,6 +271,14 @@ function App() {
   }
     , [loggedIn, filteredMovie, onlyShortMovie, searchQuery])
 
+    useEffect(() => {
+      setRegistrationStatus('')
+      if (location.pathname === '/movies') {
+        handleGetSavedMovies()
+      }
+     
+    }, [location, currentUser]);
+
   return (
     token ?
     <CurrentUserContext.Provider value={currentUser}>
@@ -278,7 +289,7 @@ function App() {
         <Route path="/signin" element={loggedIn ?
           <Navigate to='/' /> :
           <Login handleLogin={handleLogin} registrationStatus={registrationStatus} />} />
-        {console.log(savedMovies)}
+        {/* {console.log(savedMovies)} */}
         <Route path="/saved-movies" element={<ProtectedRouteElement element={SavedMovies}
           loggedIn={loggedIn}
         />} />
@@ -294,7 +305,7 @@ function App() {
           searchQuery={searchQuery}
           handleSearchQueryChange={handleSearchQueryChange}
           handleSubmitSearch={handleSubmitSearch}
-          handleGetSavedMovies={handleGetSavedMovies}
+          // handleGetSavedMovies={handleGetSavedMovies}
           isLoading={isLoading}
           movies={filteredMovie ? filteredMovie : []}
           handleLikeClick={handleLikeClick}
