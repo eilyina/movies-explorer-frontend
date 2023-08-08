@@ -1,7 +1,12 @@
 import './ErrorPage.css'
-import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
-function ErrorPage() {
+function ErrorPage(props) {
+    const navigate = useNavigate();
+
+    function handleBackButton() {
+        navigate(-1)
+    }
 
     return (
         <>
@@ -9,7 +14,7 @@ function ErrorPage() {
                 <section className="error__section">
                     <h1 className="error__title">404</h1>
                     <p className="error__text">Страница не найдена</p>
-                    <Link to="history.back()" className="error__link">Назад</Link>
+                    <button onClick={handleBackButton} className="error__link">Назад</button>
                 </section>
             </main>
 

@@ -49,7 +49,6 @@
 }
 .toggle-button__input:checked::after {
     transform: translateX(calc(100% + 9.5px));
-    /* background-color: #EBEBEB; */
     background-color: #fff;
 }
 

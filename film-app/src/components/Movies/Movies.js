@@ -4,16 +4,54 @@ import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import Header from '../Header/Header';
 import SearchForm from '../SearchForm/SearchForm';
 import Footer from '../Footer/Footer';
+import Preloader from '../Preloader/Preloader';
+import React, { useState, useEffect } from "react";
+import { NOTHING_WAS_FOUND_MESSAGE } from '../../utils/constants';
 
 
-function Movies() {
+function Movies(props) {
+
+    const [resaltSearch, setResaltSearch] = useState('');
+
+    useEffect(() => {
+        if (props.movies.length === 0) {
+            setResaltSearch(NOTHING_WAS_FOUND_MESSAGE)
+            if (props.searchQuery === '') {
+                setResaltSearch('')
+            }
+
+        } else {
+            setResaltSearch('')
+        }
+    }, [props.movies])
+
+
+console.log(props.savedMovies)
 
     return (
-        <>
-            <Header isLogged={true}> </Header>
+
+        <> <Header isLogged={props.loggedIn}> </Header>
             <main className='movie-content'>
-                <SearchForm></SearchForm>
-                <MoviesCardList isSavedMovies={false}></MoviesCardList>
+                <SearchForm
+                    handleSearchQueryChange={props.handleSearchQueryChange}
+                    handleSubmitSearch={props.handleSubmitSearch}
+                    searchQuery={props.searchQuery}
+                    isShort={props.isShort}
+                    isShortValue={props.isShortValue}
+                ></SearchForm>
+                {(props.isLoading) ? <Preloader></Preloader>
+                    :
+                    <>
+                        <p>{resaltSearch}</p>
+
+                        <MoviesCardList
+                            handleLikeClick={props.handleLikeClick}
+                            // isSavedMovies={false} 
+                            movies={props.movies}
+                            savedMovies={props.savedMovies}
+                        ></MoviesCardList>
+                    </>
+                    }
             </main>
             <Footer></Footer>
 
